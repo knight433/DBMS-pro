@@ -1,8 +1,6 @@
 import mysql.connector
 
 class Database:
-    def __init__(self, connection):
-        self.conn = connection
 
     def uniqueID(self):
         qur = 'SELECT MAX(ID) AS max_id FROM players;'
