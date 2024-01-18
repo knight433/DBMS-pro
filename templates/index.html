@@ -29,37 +29,5 @@
         <button type="submit">Submit</button>
     </form>
 
-    <script>
-        function submitForm() {
-            var name = document.getElementById('name').value;
-            var role = document.getElementById('role').value;
-            var team = document.getElementById('team').value;
-            var matches = document.getElementById('matches').value;
-
-            var data = {
-                'name': name,
-                'role': role,
-                'matches' : matches,
-                'team': team
-            };
-
-            fetch('/process_form', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-    
-            });
-        }
-    </script>
 </body>
 </html>
