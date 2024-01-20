@@ -1,72 +1,97 @@
+CREATE DATABASE player_stats
 
-
--- Table to store batting biography
-CREATE TABLE BattingBio (
-    id BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    preferred_bowlers VARCHAR(255) NULL,
-    strength VARCHAR(255) NULL DEFAULT NULL,
-    weakness VARCHAR(255) NULL DEFAULT NULL,
-    batting_pos INT NULL
+--@block
+CREATE TABLE team(
+    team_name VARCHAR(10) PRIMARY KEY
 );
 
--- Table to store bowling statistics
-CREATE TABLE Bowling (
-    id BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    inng INT NULL,
-    balls INT NULL,
-    runs INT NULL,
-    wickets INT NULL,
-    avg FLOAT NULL,
-    eco FLOAT NULL
+--@block
+CREATE TABLE if NOT EXISTS player(
+    player_id INTEGER PRIMARY KEY,
+    player_name VARCHAR(20),
+    No_of_matches INTEGER,
+    player_role ENUM('batsman','bowler','all-rounder','wicketkeeper'),
+    bowlingType ENUM('left-arm spin','left-arm pace','right-arm spin','right-arm pace');
+    battingType ENUM('right','left')
+    team_name VARCHAR(10) REFERENCES team(team_name) 
 );
 
--- Table to store batting statistics
-CREATE TABLE Batting (
-    player_id BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    inng INT NULL,
-    runs INT NULL,
-    balls INT NULL,
-    SR FLOAT NULL,
-    avg FLOAT NOT NULL,
-    highest INT NOT NULL
+--@block
+CREATE TABLE battingStats(
+    player_id INTEGER REFERENCES player(player_id) ON DELETE CASCADE,
+    inngs INTEGER,
+    runs INTEGER,
+    SR DECIMAL(3,2),
+    battingAvg DECIMAL(3,2),
+    best INTEGER,
+    PRIMARY KEY (player_id)
 );
 
--- Table to store bowling biography
-CREATE TABLE BowlingBio (
-    id BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    strength VARCHAR(255) NOT NULL,
-    preferred_overs INT NOT NULL
+
+--@block
+CREATE TABLE bowlingStats(
+    player_id INTEGER REFERENCES player(player_id) ON DELETE CASCADE,
+    inngs INTEGER,
+    wickets INTEGER,
+    runs_conceded INTEGER,
+    economy DECIMAL(4,2),
+    best_bowling_figures VARCHAR(10),
+    PRIMARY KEY (player_id) 
 );
 
--- Table to store player information
-CREATE TABLE Players (
-    id BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    player_name VARCHAR(255) NOT NULL,
-    matches INT NOT NULL,
-    player_role VARCHAR(255) NOT NULL,
-    team VARCHAR(255) NOT NULL
+
+--@block
+CREATE TABLE battingbio(
+    player_id INTEGER REFERENCES player(player_id) ON DELETE CASCADE,
+    prefered_bowler ENUM('left-arm spin','left-arm pace','right-arm spin','right-arm pace'),
+    prefered_position ENUM('top','middle','lower','tail'),
+    PRIMARY KEY (player_id)
 );
 
--- Table to store batting history
-CREATE TABLE BattingHistory (
-    id BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    out_to_spin INT NULL,
-    str_spin FLOAT NULL,
-    avg_spin FLOAT NULL,
-    out_to_pace INT NULL,
-    str_pace FLOAT NULL,
-    avg_pace BIGINT NULL,
-    spin_score BIGINT NULL,
-    pace_score BIGINT NULL,
-    FOREIGN KEY (id) REFERENCES BattingBio (id)
+CREATE TABLE battingHistory(
+    player_id INTEGER REFERENCES player(player_id) ON DELETE CASCADE,
+    runs_to_Lspin INTEGER,
+    runs_to_Rspin INTEGER,
+    runs_to_Rpace INTEGER,
+    runs_to_Lpace INTEGER,
+    out_to_Lspin INTEGER,
+    out_to_Rspin INTEGER,
+    out_to_Rpace INTEGER,
+    out_to_Lpace INTEGER,
+    balls_Lspin INTEGER,
+    balls_Rspin INTEGER,
+    balls_Rpace INTEGER,
+    balls_Lpace INTEGER,
+    batting_avg_Lspin DECIMAL(3, 2),
+    batting_avg_Rspin DECIMAL(3, 2),
+    batting_avg_Rpace DECIMAL(3, 2),
+    batting_avg_Lpace DECIMAL(3, 2),
+    elo_rating_Lspin DECIMAL(4, 2),
+    elo_rating_Rspin DECIMAL(4, 2),
+    elo_rating_Rpace DECIMAL(4, 2),
+    elo_rating_Lpace DECIMAL(4, 2),
+    PRIMARY KEY (player_id)
 );
 
--- Table to store bowling history
-CREATE TABLE BowlingHistory (
-    id BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    L_hand_out INT NULL,
-    r_hand_out INT NULL,
-    l_hand_avg BIGINT NULL,
-    r_hand_avg BIGINT NULL
+--@block
+CREATE TABLE bowlingbio (
+    player_id INTEGER REFERENCES player(player_id) ON DELETE CASCADE,
+    prefered_batting_hand ENUM('left', 'right'),
+    prefered_position ENUM('new', 'first_change', 'second_change', 'death'),
+    PRIMARY KEY (player_id)
 );
 
+CREATE TABLE bowlingHistory (
+    player_id INTEGER REFERENCES player(player_id) ON DELETE CASCADE,
+    runs_conceded_to_left INTEGER,
+    runs_conceded_to_right INTEGER,
+    wickets_against_left INTEGER,
+    wickets_against_right INTEGER,
+    balls_bowled_to_left INTEGER,
+    balls_bowled_to_right INTEGER,
+    bowling_avg_against_left DECIMAL(3, 2),
+    bowling_avg_against_right DECIMAL(3, 2),
+    elo_rating_against_left DECIMAL(4, 2),
+    elo_rating_against_right DECIMAL(4, 2),
+    PRIMARY KEY (player_id)
+);
