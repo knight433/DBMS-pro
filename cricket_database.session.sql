@@ -6,13 +6,13 @@ CREATE TABLE team(
 );
 
 --@block
-CREATE TABLE if NOT EXISTS player(
+CREATE TABLE player(
     player_id INTEGER PRIMARY KEY,
     player_name VARCHAR(20),
     No_of_matches INTEGER,
     player_role ENUM('batsman','bowler','all-rounder','wicketkeeper'),
-    bowlingType ENUM('left-arm spin','left-arm pace','right-arm spin','right-arm pace');
-    battingType ENUM('right','left')
+    bowlingType ENUM('left-arm spin','left-arm pace','right-arm spin','right-arm pace'),
+    battingType ENUM('right','left'),
     team_name VARCHAR(10) REFERENCES team(team_name) 
 );
 
@@ -95,3 +95,6 @@ CREATE TABLE bowlingHistory (
     elo_rating_against_right DECIMAL(4, 2),
     PRIMARY KEY (player_id)
 );
+
+--@block
+SELECT * FROM player
