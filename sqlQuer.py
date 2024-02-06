@@ -67,10 +67,12 @@ class Database:
         balls_Rspin = battingHistory['balls_Rspin']
         balls_Rpace = battingHistory['balls_Rpace']
         balls_Lpace = battingHistory['balls_Lpace']
-        avg_Rspin = runs_to_Rspin / out_to_Rspin if out_to_Rspin != 0 else 0
-        avg_Lspin = runs_to_Lspin / out_to_Lspin if out_to_Lspin != 0 else 0
-        avg_Rpace = runs_to_Rpace / out_to_Rpace if out_to_Rpace != 0 else 0
-        avg_Lpace = runs_to_Lpace / out_to_Lpace if out_to_Lpace != 0 else 0
+        
+        avg_Rspin = round(runs_to_Rspin / out_to_Rspin, 2) if out_to_Rspin != 0 else 0
+        avg_Lspin = round(runs_to_Lspin / out_to_Lspin, 2) if out_to_Lspin != 0 else 0
+        avg_Rpace = round(runs_to_Rpace / out_to_Rpace, 2) if out_to_Rpace != 0 else 0
+        avg_Lpace = round(runs_to_Lpace / out_to_Lpace, 2) if out_to_Lpace != 0 else 0
+
         strike_rate_Lspin = (runs_to_Lspin / balls_Lspin) * 100 if balls_Lspin != 0 else 0
         strike_rate_Rspin = (runs_to_Rspin / balls_Rspin) * 100 if balls_Rspin != 0 else 0
         strike_rate_Rpace = (runs_to_Rpace / balls_Rpace) * 100 if balls_Rpace != 0 else 0
@@ -92,14 +94,13 @@ class Database:
         best = battingHistory['best']
         sr = (runs/balls) * 100
         avg = runs/out if out != 0 else 0
-
-        sqlQurHistoy = 'INSERT INTO battinghistory VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)'
-        sqlQurstats = 'INSERT INTO battingstats VALUES (%s, %s, %s, %s, %s, %s)'
-        sqlQurbio = 'INSERT INTO battingbio (%s, %s, %s,)'
+        sqlQurHistoy = 'INSERT INTO battinghistory VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);'
+        sqlQurstats = 'INSERT INTO battingstats VALUES (%s, %s, %s, %s, %s, %s);'
+        sqlQurbio = 'INSERT INTO battingbio VALUES (%s, %s, %s);'
 
         try:
             cursor = self.conn.cursor()
-            cursor.execute(sqlQurHistoy, (player_id,runs_to_Lspin,runs_to_Rspin,runs_to_Rpace ,runs_to_Lpace ,out_to_Lspin ,out_to_Rspin,out_to_Rpace,out_to_Lpace ,balls_Lspin,balls_Rspin,balls_Rpace,balls_Lpace,avg_Lspin, avg_Rspin, avg_Rpace, avg_Lpace,eloRspin,eloLspin,eloRpace,eloLpace))
+            cursor.execute(sqlQurHistoy, (player_id,runs_to_Lspin,runs_to_Rspin,runs_to_Rpace ,runs_to_Lpace ,out_to_Lspin ,out_to_Rspin,out_to_Rpace,out_to_Lpace ,balls_Lspin,balls_Rspin,balls_Rpace,balls_Lpace,avg_Lspin, avg_Rspin, avg_Rpace, avg_Lpace,eloLspin,eloRspin,eloRpace,eloLpace))
             cursor.execute(sqlQurstats,(player_id,ing,runs,sr,avg,best))
             cursor.execute(sqlQurbio,(player_id,prefBowler,prefpos))
             self.conn.commit()

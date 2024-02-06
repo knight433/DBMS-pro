@@ -43,7 +43,7 @@ CREATE TABLE bowlingStats(
 --@block
 CREATE TABLE battingbio(
     player_id INTEGER REFERENCES player(player_id) ON DELETE CASCADE,
-    prefered_bowler ENUM('left-arm spin','left-arm pace','right-arm spin','right-arm pace'),
+    prefered_bowler ENUM('Lspin','Lpace','Rspin','Rpace'),
     prefered_position ENUM('top','middle','lower','tail'),
     PRIMARY KEY (player_id)
 );
@@ -62,14 +62,14 @@ CREATE TABLE battingHistory(
     balls_Rspin INTEGER,
     balls_Rpace INTEGER,
     balls_Lpace INTEGER,
-    batting_avg_Lspin DECIMAL(3, 2),
-    batting_avg_Rspin DECIMAL(3, 2),
-    batting_avg_Rpace DECIMAL(3, 2),
-    batting_avg_Lpace DECIMAL(3, 2),
-    elo_rating_Lspin DECIMAL(4, 2),
-    elo_rating_Rspin DECIMAL(4, 2),
-    elo_rating_Rpace DECIMAL(4, 2),
-    elo_rating_Lpace DECIMAL(4, 2),
+    batting_avg_Lspin DECIMAL(5,2),
+    batting_avg_Rspin DECIMAL(5,2),
+    batting_avg_Rpace DECIMAL(5,2),
+    batting_avg_Lpace DECIMAL(5,2),
+    elo_rating_Lspin DECIMAL(6,2),
+    elo_rating_Rspin DECIMAL(6,2),
+    elo_rating_Rpace DECIMAL(6,2),
+    elo_rating_Lpace DECIMAL(6,2),
     PRIMARY KEY (player_id)
 );
 
@@ -89,12 +89,14 @@ CREATE TABLE bowlingHistory (
     wickets_against_right INTEGER,
     balls_bowled_to_left INTEGER,
     balls_bowled_to_right INTEGER,
-    bowling_avg_against_left DECIMAL(3, 2),
-    bowling_avg_against_right DECIMAL(3, 2),
-    elo_rating_against_left DECIMAL(4, 2),
-    elo_rating_against_right DECIMAL(4, 2),
+    bowling_avg_against_left DECIMAL(5,2);,
+    bowling_avg_against_right DECIMAL(5,2),
+    elo_rating_against_left DECIMAL(6,2),
+    elo_rating_against_right DECIMAL(6,2),
     PRIMARY KEY (player_id)
 );
 
 --@block
-SELECT * FROM player
+SELECT * 
+FROM battingbio
+WHERE player_id = 1;
