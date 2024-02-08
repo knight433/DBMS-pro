@@ -177,4 +177,40 @@ class Database:
         self.AddBattingInfo(id,batdic)
         self.AddBowlingInfo(id,bowldic)
 
+    def executeQur(self,qur,ret = True):
+        try:
+            cursor = self.conn.cursor()
+            cursor.execute(qur)
+            
+            if ret == True:
+                rt = cursor.fetchall()
+                print(rt) #debugging
+                return rt
+        
+        except mysql.connector.Error as e:
+            print(f"Error executing query: {e}")
+            return None
+
+    def playerRole(self,player_id):
+        
+        qur = f'SELECT player_role FROM player WHERE player_id = {player_id};'
+        return self.executeQur(qur)   
     
+    def findBattingStrength(self,player_id):
+        
+        qur = f'SELECT prefered_bowler FROM battingbio WHERE player_id = {player_id};'
+        return self.executeQur(qur)
+        
+    def fetchBowlingType(self,player_id):
+        
+        qur = f'SELECT bowlingType FROM player where player_id = {player_id};'
+        return self.executeQur(qur)
+    
+    def findBowerStrenght(self,player_id):
+
+        qur = f'SELECT prefered_batting_hand FROM bowlingbio WHERE player_id = {player_id};'
+        return self.executeQur(qur)
+    
+    def testQur(self,player_id):
+        qur = f'SELECT * FROM bowlingbio WHERE player_id = {player_id}'
+        return self.executeQur(qur)
