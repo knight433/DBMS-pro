@@ -89,14 +89,25 @@ CREATE TABLE bowlingHistory (
     wickets_against_right INTEGER,
     balls_bowled_to_left INTEGER,
     balls_bowled_to_right INTEGER,
-    bowling_avg_against_left DECIMAL(5,2);,
+    strikeRate_right DECIMAL(5,2),
+    strikeRate_left DECIMAL(5,2),
+    bowling_avg_against_left DECIMAL(5,2),
     bowling_avg_against_right DECIMAL(5,2),
     elo_rating_against_left DECIMAL(6,2),
     elo_rating_against_right DECIMAL(6,2),
     PRIMARY KEY (player_id)
 );
 
---@block
-SELECT * 
-FROM battingbio
-WHERE player_id = 1;
+--@block -- to clear all the tables 
+DELETE FROM player;
+DELETE FROM battingbio;
+DELETE FROM battingHistory;
+DELETE FROM battingStats;
+--@block --to view all the tables
+SELECT * FROM player;
+SELECT * FROM battingbio;
+SELECT * FROM battingHistory;
+SELECT * FROM battingStats;
+SELECT * FROM bowlingbio;
+SELECT * FROM bowlingstats;
+SELECT * FROM bowlinghistory;

@@ -4,7 +4,7 @@ database = sqlQuer.Database()
 
 #database.addPlayer('virat Kholi',10,'batsman','RCB', 'right-arm pace','right')
 
-dic = {
+battingdic = {
     'runs_to_Lspin' : 1203,
     'runs_to_Rspin' : 1353,
     'runs_to_Rpace' : 2312,
@@ -22,4 +22,16 @@ dic = {
     'best' : 123
 }
 
-database.AddBattingInfo(1,dic)
+bowlingdic = {
+    'runs_to_right'   : 45,
+    'runs_to_left'    : 90,
+    'wickets_to_right': 12,
+    'wickets_to_left' : 2,
+    'balls_to_right'  : 40,
+    'balls_to_left'   : 53,
+    'inngs'           : 26,
+    'best'            : '2/12',
+    'pos'             : 'second_change'
+}
+
+database.addPlayer('virat Kholi',10,'batsman','RCB', 'right-arm pace','right',battingdic,bowlingdic)

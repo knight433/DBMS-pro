@@ -25,7 +25,7 @@ class Database:
 
         return unique_id
 
-    def calculate_elo(self,strike_rate, runs, batting_avg, num_outs):
+    def calculate_elo_batting(self,strike_rate, runs, batting_avg, num_outs):
     
         weight_strike_rate = 0.2
         weight_runs = 0.3
@@ -47,10 +47,58 @@ class Database:
         )
 
         # Adjust the range of the result to represent an Elo-like scale
-        elo_scale = 1000
+        elo_scale = 100
         player_elo = (weighted_sum - 0.5) * elo_scale
 
-        return player_elo
+        return round(player_elo,2)
+    
+    def calculate_bowling_elo(self, strike_rate, wickets):
+        
+        elo = strike_rate/10
+        return strike_rate
+
+    def AddBowlingInfo(self,player_id,bowlingHistory):
+        l = ['left','right']
+        runs_to_right = bowlingHistory['runs_to_right']
+        runs_to_left = bowlingHistory['runs_to_left']
+        wickets_to_right = bowlingHistory['wickets_to_right']
+        wickets_to_left = bowlingHistory['wickets_to_left']
+        balls_to_right = bowlingHistory['balls_to_right']
+        balls_to_left = bowlingHistory['balls_to_left']
+        inng = bowlingHistory['inngs']
+        best = bowlingHistory['best']
+        pos = bowlingHistory['pos']
+
+        Totalruns = runs_to_left + runs_to_right
+        totalballs = balls_to_left + balls_to_right
+        totalWickets = wickets_to_left + wickets_to_right
+        eco = round(totalballs/(totalballs),2)
+
+        avg_right = round(runs_to_right / wickets_to_right, 2) if wickets_to_right != 0 else 0
+        avg_left = round(runs_to_left / wickets_to_left, 2) if wickets_to_left != 0 else 0
+        strike_rate_right = round(balls_to_right / wickets_to_right ,2)  if balls_to_right != 0 else 0
+        strike_rate_left = round(balls_to_left / wickets_to_left ,2)  if balls_to_left != 0 else 0
+
+        elo_right = self.calculate_bowling_elo(strike_rate_right,wickets_to_right)
+        elo_left = self.calculate_bowling_elo(strike_rate_left,wickets_to_left)
+        eloList = [elo_left,elo_right]
+        prefbat = l[eloList.index(max(eloList))]
+
+        sqlHistory = 'INSERT INTO bowlinghistory VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s );'
+        sqlStats = 'INSERT INTO bowlingstats VALUES(%s, %s, %s, %s, %s, %s);'
+        sqlbio = 'INSERT INTO bowlingbio VALUES(%s, %s, %s);'
+
+        try:
+            cursor = self.conn.cursor()
+            cursor.execute(sqlHistory,(player_id,runs_to_left,runs_to_right,wickets_to_left,wickets_to_right,balls_to_left,balls_to_right,avg_left,avg_right,elo_left,elo_right,strike_rate_right,strike_rate_left))
+            cursor.execute(sqlStats,(player_id,inng,totalWickets,Totalruns,eco,best))
+            cursor.execute(sqlbio,(player_id,prefbat,pos))
+            self.conn.commit()
+            print(f'added bowling stats of {player_id}') #debugging
+        except Exception as e:
+            print(f"Error adding player: {e}")
+        finally:
+            cursor.close()
 
 
     def AddBattingInfo(self,player_id,battingHistory):
@@ -78,10 +126,10 @@ class Database:
         strike_rate_Rpace = (runs_to_Rpace / balls_Rpace) * 100 if balls_Rpace != 0 else 0
         strike_rate_Lpace = (runs_to_Lpace / balls_Lpace) * 100 if balls_Lpace != 0 else 0
         
-        eloRspin = self.calculate_elo(strike_rate_Rspin, runs_to_Rspin, avg_Rspin, out_to_Rspin)
-        eloLspin = self.calculate_elo(strike_rate_Lspin, runs_to_Lspin, avg_Lspin, out_to_Lspin)
-        eloRpace = self.calculate_elo(strike_rate_Rpace, runs_to_Rpace, avg_Rpace, out_to_Rpace)
-        eloLpace = self.calculate_elo(strike_rate_Lpace, runs_to_Lpace, avg_Lpace, out_to_Lpace)
+        eloRspin = self.calculate_elo_batting(strike_rate_Rspin, runs_to_Rspin, avg_Rspin, out_to_Rspin)
+        eloLspin = self.calculate_elo_batting(strike_rate_Lspin, runs_to_Lspin, avg_Lspin, out_to_Lspin)
+        eloRpace = self.calculate_elo_batting(strike_rate_Rpace, runs_to_Rpace, avg_Rpace, out_to_Rpace)
+        eloLpace = self.calculate_elo_batting(strike_rate_Lpace, runs_to_Lpace, avg_Lpace, out_to_Lpace)
         eloList = [eloRspin,eloLspin,eloRpace,eloLpace]
 
         prefBowler = l[eloList.index(max(eloList))]
@@ -104,13 +152,14 @@ class Database:
             cursor.execute(sqlQurstats,(player_id,ing,runs,sr,avg,best))
             cursor.execute(sqlQurbio,(player_id,prefBowler,prefpos))
             self.conn.commit()
+            print(f'added batting info of {player_id}') #debugging
             print("Player added successfully.")
         except Exception as e:
             print(f"Error adding player: {e}")
         finally:
             cursor.close()
    
-    def addPlayer(self,name,matches,role,team,bowlingType,battingType):
+    def addPlayer(self,name,matches,role,team,bowlingType,battingType,batdic,bowldic):
         
         sqlQur = 'INSERT INTO PLAYER VALUES (%s, %s, %s, %s, %s, %s, %s)'
         id = self.uniqueID()
@@ -119,7 +168,13 @@ class Database:
             cursor = self.conn.cursor()
             cursor.execute(sqlQur, (id,name, matches, role, team, bowlingType, battingType))
             self.conn.commit()
+            print('added player') #debugging
         except Exception as e:
             print(f"Error adding player: {e}")
         finally:
             cursor.close()
+
+        self.AddBattingInfo(id,batdic)
+        self.AddBowlingInfo(id,bowldic)
+
+    
