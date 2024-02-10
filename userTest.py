@@ -34,4 +34,38 @@ bowlingdic = {
     'pos'             : 'second_change'
 }
 
-database.addPlayer('virat Kholi',10,'batsman','RCB', 'right-arm pace','right',battingdic,bowlingdic)
+# database.addPlayer('virat Kholi',10,'batsman','RCB', 'right-arm pace','right',battingdic,bowlingdic)
+
+def batsmenStrengthCount(batter_id,team):
+
+    batterStrength = database.getBattingInfo(batter_id,'prefered_bowler')
+    strCount = 0
+
+    for player in team:
+
+        role = database.playerRole(player)
+
+        if role == "bowler" or role == "all-rounder":
+            Btype = database.fetchBowlingType(player)  
+            
+            if batterStrength == Btype:
+                strCount += 1
+
+def bowlerStrengthCount(bowler_id,team):
+    
+    bowlerStrength = database.getbowlinInfo(bowler_id,'prefered_bowler')
+    strCount = 0
+    
+    for player in team:
+        role = database.playerRole(player)
+
+        if role == 'batsmen' or role == 'all-rounder':
+            
+            hand = 0
+
+
+def testFuntion():
+    a = database.getbowlinInfo(1,'prefered_bowler')
+    print(a)
+
+testFuntion()

@@ -184,7 +184,6 @@ class Database:
             
             if ret == True:
                 rt = cursor.fetchall()
-                print(rt) #debugging
                 return rt
         
         except mysql.connector.Error as e:
@@ -196,21 +195,42 @@ class Database:
         qur = f'SELECT player_role FROM player WHERE player_id = {player_id};'
         return self.executeQur(qur)   
     
-    def findBattingStrength(self,player_id):
-        
-        qur = f'SELECT prefered_bowler FROM battingbio WHERE player_id = {player_id};'
-        return self.executeQur(qur)
-        
-    def fetchBowlingType(self,player_id):
-        
-        qur = f'SELECT bowlingType FROM player where player_id = {player_id};'
-        return self.executeQur(qur)
     
-    def findBowerStrenght(self,player_id):
+    def getBattingInfo(self,player_id,req):
+        
+        qur = f'SELECT * FROM battingbio WHERE player_id = {player_id};'
+        batBio = self.executeQur(qur)
+        batBio = batBio[0]
 
-        qur = f'SELECT prefered_batting_hand FROM bowlingbio WHERE player_id = {player_id};'
-        return self.executeQur(qur)
-    
-    def testQur(self,player_id):
-        qur = f'SELECT * FROM bowlingbio WHERE player_id = {player_id}'
-        return self.executeQur(qur)
+        if req == 'prefered_bowler':
+            return batBio[1]
+        elif req == 'prefered_postion':
+            return batBio[2]
+        else:
+            print('not a valid req')
+        
+    def getbowlinInfo(self, player_id,req):
+        
+        qur = f'SELECT * FROM bowlingbio WHERE player_id ={player_id};'
+        bowlbio = self.executeQur(qur)
+        bowlbio = bowlbio[0]
+
+        if req == 'prefered_bowler':
+            return bowlbio[1]
+        elif req == 'prefered_pos':
+            return bowlbio[2]
+        else:
+            print('not a Valid request') 
+
+    def playerInfo(self,player_id,req):
+        
+        qur = f'SELECT * FROM player WHERE player_id = {player_id}'
+        playerInfo = self.executeQur(qur)
+        playerInfo = playerInfo[0]
+
+        if req == 'bating_hand':
+            return playerInfo[6]
+        elif req == 'bowlingType':
+            return playerInfo[5]
+        elif req == 'team':
+            return playerInfo[4]

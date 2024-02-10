@@ -103,6 +103,7 @@ DELETE FROM player;
 DELETE FROM battingbio;
 DELETE FROM battingHistory;
 DELETE FROM battingStats;
+
 --@block --to view all the tables
 SELECT * FROM player;
 SELECT * FROM battingbio;
@@ -111,3 +112,6 @@ SELECT * FROM battingStats;
 SELECT * FROM bowlingbio;
 SELECT * FROM bowlingstats;
 SELECT * FROM bowlinghistory;
+
+--@block
+SELECT * FROM player WHERE player_id = 1;
