@@ -55,7 +55,7 @@ class Database:
     def calculate_bowling_elo(self, strike_rate, wickets):
         
         elo = strike_rate/10
-        return strike_rate
+        return elo
 
     def AddBowlingInfo(self,player_id,bowlingHistory):
         l = ['left','right']
@@ -177,25 +177,14 @@ class Database:
         self.AddBattingInfo(id,batdic)
         self.AddBowlingInfo(id,bowldic)
 
-    def executeQur(self,qur,ret = True):
-        try:
-            cursor = self.conn.cursor()
-            cursor.execute(qur)
+    def executeQur(self,qur):
+        cursor = self.conn.cursor()
+        cursor.execute(qur)
             
-            if ret == True:
-                rt = cursor.fetchall()
-                return rt
+        rt = cursor.fetchall()
+        return rt
         
-        except mysql.connector.Error as e:
-            print(f"Error executing query: {e}")
-            return None
 
-    def playerRole(self,player_id):
-        
-        qur = f'SELECT player_role FROM player WHERE player_id = {player_id};'
-        return self.executeQur(qur)   
-    
-    
     def getBattingInfo(self,player_id,req):
         
         qur = f'SELECT * FROM battingbio WHERE player_id = {player_id};'
@@ -228,9 +217,12 @@ class Database:
         playerInfo = self.executeQur(qur)
         playerInfo = playerInfo[0]
 
-        if req == 'bating_hand':
+        if req == 'batting_hand':
             return playerInfo[6]
         elif req == 'bowlingType':
             return playerInfo[5]
         elif req == 'team':
             return playerInfo[4]
+        elif req == 'role':
+            return playerInfo[3]
+        
