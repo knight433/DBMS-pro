@@ -1,44 +1,38 @@
-from cmath import rect
-from numpy import rec
-
-from sympy import O
 import sqlQuer
 
 db = sqlQuer.Database()
 
-#database.addPlayer('virat Kholi',10,'batsman','RCB', 'right-arm pace','right')
 
 battingdic = {
-    'runs_to_Lspin' : 1155,
-    'runs_to_Rspin' : 2598,
-    'runs_to_Rpace' : 4163,
-    'runs_to_Lpace' : 1344,
-    'out_to_Lspin'  : 12,
-    'out_to_Rspin'  : 24,
-    'out_to_Rpace'  : 6,
-    'out_to_Lpace'  : 15,
-    'balls_Lspin'   : 902,
-    'balls_Rspin'   : 945,
-    'balls_Rpace'   : 1564,
-    'balls_Lpace'   : 985,
-    'pos' : 'top',
-    'inng' : 60,
-    'best' : 123
+    'runs_to_Lspin' : 8,
+    'runs_to_Rspin' : 9,
+    'runs_to_Rpace' : 42,
+    'runs_to_Lpace' : 15,
+    'out_to_Lspin'  : 2,
+    'out_to_Rspin'  : 4,
+    'out_to_Rpace'  : 4,
+    'out_to_Lpace'  : 1,
+    'balls_Lspin'   : 10,
+    'balls_Rspin'   : 10,
+    'balls_Rpace'   : 44,
+    'balls_Lpace'   : 15,
+    'pos' : 'tail',
+    'inng' : 33,
+    'best' : 21
 }
 
 bowlingdic = {
-    'runs_to_right'   : 45,
-    'runs_to_left'    : 90,
-    'wickets_to_right': 12,
-    'wickets_to_left' : 2,
-    'balls_to_right'  : 40,
-    'balls_to_left'   : 53,
-    'inngs'           : 26,
-    'best'            : '2/12',
-    'pos'             : 'second_change'
-}
+    'runs_to_right'   : 2324,
+    'runs_to_left'    : 1098,
+    'wickets_to_right': 90,
+    'wickets_to_left' : 37,
+    'balls_to_right'  : 1607,
+    'balls_to_left'   : 825,
+    'inngs'           : 205,
+    'best'            : '4/11',
+    'pos'             : 'new'}
 
-# database.addPlayer('virat Kholi',10,'batsman','RCB', 'right-arm pace','right',battingdic,bowlingdic)
+# db.addPlayer('M Shami',205,'bowler','GT','Rpace','right',battingdic,bowlingdic)
 
 #finds how many bowlers this batsmen can dominate
 def batsmenStrengthCount(batter_id,team):
@@ -127,7 +121,7 @@ def judgebowling(bowlers):
     deathscore = 0
 
     for bowler in bowlers:
-        pos = db.getBattingInfo(bowler)
+        pos = db.getbowlinInfo(bowler,'prefered_pos')
 
         if pos == 'new':
             recOpen -= 1
@@ -154,6 +148,8 @@ def judgebowling(bowlers):
     elif recChange > 0:
         deathscore += 5
   
+    finalScore = openscore + changescore + deathscore
+    return finalScore
 
 def judgeTeam(team):
 
@@ -169,7 +165,6 @@ def judgeTeam(team):
     recBat = 7
 
     for player in team:
-        
         
         role = db.playerInfo(player,'role')
 
@@ -210,12 +205,101 @@ def judgeTeam(team):
     else:
         keepscore += 10
 
+    print(f' bat = {batscore}, bowl = {bowlscore}, keep = {keepscore}') #debugging
 
+def battingStrength(batsman,bowlers):
 
+    batsmanStrenth = db.getBattingInfo(batsman,'prefered_bowler')
+    strcount = 0
+
+    for bowler in bowlers:
+        bowltype = db.playerInfo(bowler,'bowlingType')
+
+        if bowltype == batsmanStrenth:
+            strcount += 1
+
+    if strcount >= len(bowlers)/2:
+        return 1
+    else:
+        return 0
+
+def bowlingStrength(bowler,batsmen):
+
+    bowlerStength = db.getbowlinInfo(bowler,'prefered_batting_hand')
+    strcount = 0
+
+    for batsman in batsmen:
+        batingtype = db.playerInfo(batsman,'batting_hand')
+
+        if batingtype == bowlerStength:
+            strcount += 1
+    
+    if strcount >= len(batsmen)/2:
+        return 1
+    else:
+        return 0
+
+def compareTeamStrength(team1,team2):
+    
+    bat1 = []
+    bowl1 = []
+    keep1 = []
+
+    team1str = 0
+    team2str = 0
+
+    for player in team1:
+        
+        role = db.playerInfo(player,'role')
+
+        if role == 'batsmen': 
+            bat1.append(player) 
+        
+        elif role == "bowler":
+            bowl1.append(player) 
+        
+        elif role == 'all-rounder':
+            bowl1.append(player) 
+            bat1.append(player) 
+        
+        elif role == 'wicketkeeper':
+            bat1.append(player) 
+            keep1.append(player) 
+    
+    bat2 = []
+    bowl2 = []
+    keep2 = []
+    for player in team2:
+        
+        role = db.playerInfo(player,'role')
+
+        if role == 'batsmen': 
+            bat2.append(player) 
+        
+        elif role == "bowler":
+            bowl2.append(player) 
+        
+        elif role == 'all-rounder':
+            bowl2.append(player) 
+            bat2.append(player) 
+        
+        elif role == 'wicketkeeper':
+            bat2.append(player) 
+            keep2.append(player)
+
+    for batter in bat1:
+        team1str += battingStrength(batter,bowl2)
+    
+    for batter in bat2:
+        team2str += battingStrength(batter,bowl1)
+    
+    finalScore = team1str - team2str
+    
+    return finalScore
 
 
 def testFuntion():
-    a = db.getbowlinInfo(1,'prefered_bowler')
-    print(a)
+    team1 = [i for i in range(1,12)]
+    judgeTeam(team1)
 
 testFuntion()

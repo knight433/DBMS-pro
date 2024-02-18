@@ -11,7 +11,7 @@ class Database:
 
 
     def uniqueID(self):
-        qur = 'SELECT MAX(ID) AS max_id FROM players;'
+        qur = 'SELECT MAX(player_id) AS max_id FROM player;'
         try:
             cursor = self.conn.cursor()
             cursor.execute(qur)
@@ -72,12 +72,12 @@ class Database:
         Totalruns = runs_to_left + runs_to_right
         totalballs = balls_to_left + balls_to_right
         totalWickets = wickets_to_left + wickets_to_right
-        eco = round(totalballs/(totalballs),2)
+        eco = round(totalballs/(totalballs),2) if totalballs != 0 else 0
 
         avg_right = round(runs_to_right / wickets_to_right, 2) if wickets_to_right != 0 else 0
         avg_left = round(runs_to_left / wickets_to_left, 2) if wickets_to_left != 0 else 0
-        strike_rate_right = round(balls_to_right / wickets_to_right ,2)  if balls_to_right != 0 else 0
-        strike_rate_left = round(balls_to_left / wickets_to_left ,2)  if balls_to_left != 0 else 0
+        strike_rate_right = round(balls_to_right / wickets_to_right ,2)  if balls_to_right and wickets_to_right != 0 else 0
+        strike_rate_left = round(balls_to_left / wickets_to_left ,2)  if balls_to_left and wickets_to_left != 0 else 0
 
         elo_right = self.calculate_bowling_elo(strike_rate_right,wickets_to_right)
         elo_left = self.calculate_bowling_elo(strike_rate_left,wickets_to_left)
@@ -153,7 +153,6 @@ class Database:
             cursor.execute(sqlQurbio,(player_id,prefBowler,prefpos))
             self.conn.commit()
             print(f'added batting info of {player_id}') #debugging
-            print("Player added successfully.")
         except Exception as e:
             print(f"Error adding player: {e}")
         finally:
@@ -166,7 +165,7 @@ class Database:
 
         try:
             cursor = self.conn.cursor()
-            cursor.execute(sqlQur, (id,name, matches, role, team, bowlingType, battingType))
+            cursor.execute(sqlQur, (id, name, matches, role, bowlingType, battingType, team))
             self.conn.commit()
             print('added player') #debugging
         except Exception as e:
@@ -204,7 +203,7 @@ class Database:
         bowlbio = self.executeQur(qur)
         bowlbio = bowlbio[0]
 
-        if req == 'prefered_bowler':
+        if req == 'prefered_batting_hand':
             return bowlbio[1]
         elif req == 'prefered_pos':
             return bowlbio[2]

@@ -11,7 +11,7 @@ CREATE TABLE player(
     player_name VARCHAR(20),
     No_of_matches INTEGER,
     player_role ENUM('batsman','bowler','all-rounder','wicketkeeper'),
-    bowlingType ENUM('left-arm spin','left-arm pace','right-arm spin','right-arm pace'),
+    bowlingType ENUM('Lspin','Lpace','Rspin','Rpace'),
     battingType ENUM('right','left'),
     team_name VARCHAR(10) REFERENCES team(team_name) 
 );
@@ -103,6 +103,9 @@ DELETE FROM player;
 DELETE FROM battingbio;
 DELETE FROM battingHistory;
 DELETE FROM battingStats;
+DELETE FROM bowlingbio;
+DELETE FROM bowlingstats;
+DELETE FROM bowlinghistory
 
 --@block --to view all the tables
 SELECT * FROM player;
@@ -114,4 +117,10 @@ SELECT * FROM bowlingstats;
 SELECT * FROM bowlinghistory;
 
 --@block
-SELECT * FROM player WHERE player_id = 1;
+DELETE FROM player where player_id = 11;
+DELETE FROM battingbio where player_id = 11;
+DELETE FROM battingHistory where player_id = 11;
+DELETE FROM battingStats where player_id = 11;
+DELETE FROM bowlingbio where player_id = 11;
+DELETE FROM bowlingstats where player_id = 11;
+DELETE FROM bowlinghistory where player_id = 11;
