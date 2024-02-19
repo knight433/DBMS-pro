@@ -117,10 +117,13 @@ SELECT * FROM bowlingstats;
 SELECT * FROM bowlinghistory;
 
 --@block
-DELETE FROM player where player_id = 11;
-DELETE FROM battingbio where player_id = 11;
-DELETE FROM battingHistory where player_id = 11;
-DELETE FROM battingStats where player_id = 11;
-DELETE FROM bowlingbio where player_id = 11;
-DELETE FROM bowlingstats where player_id = 11;
-DELETE FROM bowlinghistory where player_id = 11;
+DELETE FROM player where player_id = 13;
+DELETE FROM battingbio where player_id = 13;
+DELETE FROM battingHistory where player_id = 13;
+DELETE FROM battingStats where player_id = 13;
+DELETE FROM bowlingbio where player_id = 13;
+DELETE FROM bowlingstats where player_id = 13;
+DELETE FROM bowlinghistory where player_id = 13;
+
+--@block
+SELECT * FROM player WHERE player_id = 2

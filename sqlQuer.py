@@ -217,11 +217,11 @@ class Database:
         playerInfo = playerInfo[0]
 
         if req == 'batting_hand':
-            return playerInfo[6]
-        elif req == 'bowlingType':
             return playerInfo[5]
-        elif req == 'team':
+        elif req == 'bowlingType':
             return playerInfo[4]
+        elif req == 'team':
+            return playerInfo[6]
         elif req == 'role':
             return playerInfo[3]
         elif req == 'name':

@@ -6,35 +6,36 @@ goodThings = []
 badThings = []
 
 battingdic = {
-    'runs_to_Lspin' : 8,
-    'runs_to_Rspin' : 9,
-    'runs_to_Rpace' : 42,
-    'runs_to_Lpace' : 15,
-    'out_to_Lspin'  : 2,
-    'out_to_Rspin'  : 4,
-    'out_to_Rpace'  : 4,
-    'out_to_Lpace'  : 1,
-    'balls_Lspin'   : 10,
-    'balls_Rspin'   : 10,
-    'balls_Rpace'   : 44,
-    'balls_Lpace'   : 15,
+    'runs_to_Lspin' : 7,
+    'runs_to_Rspin' : 4,
+    'runs_to_Rpace' : 37,
+    'runs_to_Lpace' : 27,
+    'out_to_Lspin'  : 0,
+    'out_to_Rspin'  : 2,
+    'out_to_Rpace'  : 5,
+    'out_to_Lpace'  : 0,
+    'balls_Lspin'   : 18,
+    'balls_Rspin'   : 12,
+    'balls_Rpace'   : 45,
+    'balls_Lpace'   : 30,
     'pos' : 'tail',
-    'inng' : 33,
-    'best' : 21
+    'inng' : 26,
+    'best' : 7
 }
 
 bowlingdic = {
-    'runs_to_right'   : 2324,
-    'runs_to_left'    : 1098,
-    'wickets_to_right': 90,
-    'wickets_to_left' : 37,
-    'balls_to_right'  : 1607,
-    'balls_to_left'   : 825,
-    'inngs'           : 205,
-    'best'            : '4/11',
-    'pos'             : 'new'}
+    'runs_to_right'   : 1195,
+    'runs_to_left'    : 595,
+    'wickets_to_right': 51,
+    'wickets_to_left' : 23,
+    'balls_to_right'  : 1010,
+    'balls_to_left'   : 498,
+    'inngs'           : 127,
+    'best'            : '4/33',
+    'pos'             : 'first_change'
+}
 
-# db.addPlayer('M Shami',205,'bowler','GT','Rpace','right',battingdic,bowlingdic)
+# db.addPlayer('Maheesh Theekshana',127,'bowler','CSK','Rspin','right',battingdic,bowlingdic)
 
 #finds how many bowlers this batsmen can dominate
 def batsmenStrengthCount(batter_id,team):
@@ -238,13 +239,15 @@ def battingStrength(batsman,bowlers):
 
     batsmanStrenth = db.getBattingInfo(batsman,'prefered_bowler')
     strcount = 0
-
+    # print(batsmanStrenth) #debugging
     for bowler in bowlers:
         bowltype = db.playerInfo(bowler,'bowlingType')
+        # print(f'type: {bowltype}') #debugging
 
         if bowltype == batsmanStrenth:
             strcount += 1
 
+    # print(f'batsmen - {batsman} strCount - {strcount}') #debugging
     if strcount >= len(bowlers)/2:
         return 1
     else:
@@ -272,8 +275,10 @@ def compareTeamStrength(team1,team2):
     bowl1 = []
     keep1 = []
 
-    team1str = 0
-    team2str = 0
+    team1Battingstr = 0
+    team1Bowlingstr = 0
+    team2Battingstr = 0
+    team2Bowlingstr = 0
 
     for player in team1:
         
@@ -292,7 +297,7 @@ def compareTeamStrength(team1,team2):
         elif role == 'wicketkeeper':
             bat1.append(player) 
             keep1.append(player) 
-    
+
     bat2 = []
     bowl2 = []
     keep2 = []
@@ -315,18 +320,27 @@ def compareTeamStrength(team1,team2):
             keep2.append(player)
 
     for batter in bat1:
-        team1str += battingStrength(batter,bowl2)
+        team1Battingstr += battingStrength(batter,bowl2)
     
     for batter in bat2:
-        team2str += battingStrength(batter,bowl1)
+        team2Battingstr += battingStrength(batter,bowl1)
     
-    finalScore = team1str - team2str
+    for bowler in bowl1:
+        team1Bowlingstr += bowlingStrength(bowler,bowl2)
     
+    for bowler in bowl2:
+        team2Bowlingstr += bowlingStrength(bowler,bowl1)
+
+    print(team1Bowlingstr,team2Bowlingstr) #debugging
+    finalScore = team1Bowlingstr - team2Bowlingstr
+    
+    print(f'{finalScore}')
     return finalScore
 
 
 def testFuntion():
     team1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-    judgeTeam(team1)
+    team2 = [12,13,14,15,16,17,18,19,20,21,22]
+    compareTeamStrength(team1,team2)
 
 testFuntion()
