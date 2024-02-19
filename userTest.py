@@ -2,6 +2,8 @@ import sqlQuer
 
 db = sqlQuer.Database()
 
+goodThings = []
+badThings = []
 
 battingdic = {
     'runs_to_Lspin' : 8,
@@ -82,7 +84,7 @@ def judgeBatting(batsmen):
     
     for i in batsmen:
         pos = db.getBattingInfo(i,'prefered_postion')
-
+        name = db.playerInfo(i,'name')
         if pos == 'top':
             rectop -= 1
         elif pos == 'middle':
@@ -92,18 +94,24 @@ def judgeBatting(batsmen):
     
     if rectop <= 0:
         topScore = 10
+        goodThings.append('There are enough top order batsmen') #report 
     else:
         topScore += 10 - (2*rectop)
+        print(f'There are not enough top order batsmen hence top score = {topScore}') #report
     
     if recmiddle <= 10:
         middleScore += 10
+        goodThings.append('There are enough middle order batsmen') #report
     else:
         middleScore += 10 - (2*recmiddle) + (-1*rectop)
+        badThings.append(f'There are not enough middle order batsmen hence middle score = {middleScore}') #report
 
     if lower <= 0:
         lowerScore += 10
+        goodThings.append('There are enough lower order batsmen') #report
     else:
         lowerScore += 10 - (2*lowerScore) + (-1*recmiddle)
+        badThings.append(f'There are not enough lower order batsmen hence lower score = {lowerScore}') #report
 
     finalScore = topScore + middleScore + lowerScore
     return finalScore
@@ -120,34 +128,44 @@ def judgebowling(bowlers):
     changescore = 0
     deathscore = 0
 
+
     for bowler in bowlers:
         pos = db.getbowlinInfo(bowler,'prefered_pos')
 
         if pos == 'new':
             recOpen -= 1
-        elif pos == 'first-change':
+        elif pos == 'first_change':
             recChange -= 1
-        elif pos == 'second-change':
+        elif pos == 'second_change':
             recChange -= 1
             secondChange += 1
         elif pos == 'death':
+            print('here',pos) #debugging
             recDeath -= 1
     
     if recOpen <= 0:
         openscore += 10
+        goodThings.append('There are enough open bowlers') #report
     else:
         openscore += 10 - (3*recOpen)
-
+        badThings.append('There are not enough new bowlers') #report
+    
     if recChange <= 0:
         changescore += 10
+        goodThings.append('There are enough change bowlers') #report
     else:
-        changescore += 10 - (2*recChange) + (-1*recOpen)        
-
+        changescore += 10 - (2*recChange) + (1*recOpen)        
+        badThings.append('there are not enough change bowlers') #report
+    
     if recDeath <= 0:
-        deathscore += 1
-    elif recChange > 0:
+        deathscore += 10
+        goodThings.append('There are enough death bowlers') #report
+    elif recChange < 0:
         deathscore += 5
-  
+        badThings.append('there are not enough death bowlers can manage') #report
+    else:
+        badThings.append('not enough death bowlers and not enough change')
+    
     finalScore = openscore + changescore + deathscore
     return finalScore
 
@@ -168,7 +186,7 @@ def judgeTeam(team):
         
         role = db.playerInfo(player,'role')
 
-        if role == 'batsmen': 
+        if role == 'batsman': 
             bat.append(player) 
         
         elif role == "bowler":
@@ -184,19 +202,23 @@ def judgeTeam(team):
     
     batscore = 0  #/30 + 10
     bowlscore = 0 #/30 + 10 
-    keepscore = 0 
+    keepscore = 0 #/10
 
-    if len(bat) < minBat:
-        batscore += len(bat)
+    if len(bat) > minBat:
+        batscore += 10
+        goodThings.append('There are enough batsmen') #report
     else:
         batscore += 10 - abs(len(bat) - recBat)
+        badThings.append("There are not enough Batsmen") #report
     
     batscore += judgeBatting(bat)
     
-    if len(bowl) < minBowl:
-        bowlscore += len(bowl)
+    if len(bowl) > minBowl:
+        bowlscore += 10
+        goodThings.append('There are enough bowlers') #report
     else:
         bowlscore += 10 - abs(len(bowl) - recBowl)
+        badThings.append("There are not enough bowlers") #report
     
     bowlscore += judgebowling(bowl)
     
@@ -206,6 +228,11 @@ def judgeTeam(team):
         keepscore += 10
 
     print(f' bat = {batscore}, bowl = {bowlscore}, keep = {keepscore}') #debugging
+    percentage = ((batscore + keepscore + bowlscore)/90) * 100
+    percentage = round(percentage, 2)
+    print(percentage) #debugging
+
+    return percentage
 
 def battingStrength(batsman,bowlers):
 
@@ -252,7 +279,7 @@ def compareTeamStrength(team1,team2):
         
         role = db.playerInfo(player,'role')
 
-        if role == 'batsmen': 
+        if role == 'batsman': 
             bat1.append(player) 
         
         elif role == "bowler":
@@ -273,7 +300,7 @@ def compareTeamStrength(team1,team2):
         
         role = db.playerInfo(player,'role')
 
-        if role == 'batsmen': 
+        if role == 'batsman': 
             bat2.append(player) 
         
         elif role == "bowler":
@@ -299,7 +326,7 @@ def compareTeamStrength(team1,team2):
 
 
 def testFuntion():
-    team1 = [i for i in range(1,12)]
+    team1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
     judgeTeam(team1)
 
 testFuntion()

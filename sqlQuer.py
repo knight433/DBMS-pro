@@ -224,4 +224,6 @@ class Database:
             return playerInfo[4]
         elif req == 'role':
             return playerInfo[3]
+        elif req == 'name':
+            return playerInfo[1]
         
