@@ -15,4 +15,7 @@ class database:
 
         self.db.addPlayer(name,matches,role,team,bowlingType,battingType,battingdic,bowlingdic)
     
-    
+    def compareTeam(self,team1,team2):
+        
+        team1ID = self.db.getAllFromTeam(team1)
+        team2ID = self.db.getAllFromTeam(team2)

@@ -5,38 +5,6 @@ db = sqlQuer.Database()
 goodThings = []
 badThings = []
 
-battingdic = {
-    'runs_to_Lspin' : 7,
-    'runs_to_Rspin' : 4,
-    'runs_to_Rpace' : 37,
-    'runs_to_Lpace' : 27,
-    'out_to_Lspin'  : 0,
-    'out_to_Rspin'  : 2,
-    'out_to_Rpace'  : 5,
-    'out_to_Lpace'  : 0,
-    'balls_Lspin'   : 18,
-    'balls_Rspin'   : 12,
-    'balls_Rpace'   : 45,
-    'balls_Lpace'   : 30,
-    'pos' : 'tail',
-    'inng' : 26,
-    'best' : 7
-}
-
-bowlingdic = {
-    'runs_to_right'   : 1195,
-    'runs_to_left'    : 595,
-    'wickets_to_right': 51,
-    'wickets_to_left' : 23,
-    'balls_to_right'  : 1010,
-    'balls_to_left'   : 498,
-    'inngs'           : 127,
-    'best'            : '4/33',
-    'pos'             : 'first_change'
-}
-
-# db.addPlayer('Maheesh Theekshana',127,'bowler','CSK','Rspin','right',battingdic,bowlingdic)
-
 #finds how many bowlers this batsmen can dominate
 def batsmenStrengthCount(batter_id,team):
 

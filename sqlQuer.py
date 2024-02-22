@@ -225,3 +225,13 @@ class Database:
         elif req == 'name':
             return playerInfo[1]
         
+    def getAllFromTeam(self,team):
+
+        qur = f"SELECT player_id FROM player WHERE team_name = '{team}';"
+        playerInfo = self.executeQur(qur)
+        players = []
+
+        for i in playerInfo:
+            players.append(i[0])
+        
+        return players

@@ -64,18 +64,53 @@
     <div>
         <h2><u>Here you can compare Teams</u></h2><br>
         <hr>
-        <form action="forms.flask">
-            <label for="player1">
+        <form id="compareForm">
+            <label for="team1">
                 <b><u>Enter Team 1</u></b>
-                <input type="text" name="PN" id="1" placeholder="Team Name">
+                <input type="text" name="team1" id="team1" placeholder="Team Name">
             </label><br>
             <hr>
-            <label for="player2">
+            <label for="team2">
                 <b><u>Enter Team 2</u></b>
-                <input type="text" name="PN" id="2" placeholder="Team Name">
+                <input type="text" name="team2" id="team2" placeholder="Team Name">
             </label>
+            <hr>
+            <input type="submit" value="Compare Teams">
         </form>
     </div>
+    
+    <script>
+        document.getElementById('compareForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            var team1 = document.getElementById('team1').value;
+            var team2 = document.getElementById('team2').value;
+
+            fetch('/compareTeam', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    team1: team1,
+                    team2: team2
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('Network response was not ok.');
+            })
+            .then(data => {
+                console.log(data); // Response from the server
+                // Handle the response as needed
+            })
+            .catch(error => {
+                console.error('There was a problem with your fetch operation:', error);
+            });
+        });
+    </script>
 </body>
 
 </html>

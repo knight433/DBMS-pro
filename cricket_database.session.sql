@@ -126,5 +126,5 @@ DELETE FROM bowlingstats where player_id = 23;
 DELETE FROM bowlinghistory where player_id = 23;
 
 --@block
-SELECT * FROM battingStats;
-SELECT * FROM bowlingstats;
+SELECT player_id FROM player 
+WHERE team_name = 'GT';
