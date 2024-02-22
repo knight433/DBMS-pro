@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compare Players Stats</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0; 
+            color: #333;
+        }
+
+        div {
+            text-align: center;
+            padding: 20px;
+            margin: 50px auto;
+            max-width: 600px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            text-decoration: underline;
+            color: #3498db;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 15px;
+            display: block;
+            font-weight: bold;
+        }
+
+        input {
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        input[type="text"] {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        hr {
+            border: 1px solid #ccc;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <h2><u>Here you can compare Teams</u></h2><br>
+        <hr>
+        <form action="forms.flask">
+            <label for="player1">
+                <b><u>Enter Team 1</u></b>
+                <input type="text" name="PN" id="1" placeholder="Team Name">
+            </label><br>
+            <hr>
+            <label for="player2">
+                <b><u>Enter Team 2</u></b>
+                <input type="text" name="PN" id="2" placeholder="Team Name">
+            </label>
+        </form>
+    </div>
+</body>
+
+</html>

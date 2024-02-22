@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cricket Player Stats Search</title>
+    <style>
+        body {
+            background: url('') center/cover fixed;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #fff;
+        }
+
+        div {
+            text-align: center;
+            padding: 20px;
+            margin: 50px auto;
+            max-width: 600px;
+            background-color: rgba(12, 12, 12, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            text-decoration: underline;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 15px;
+            display: block;
+            color: #f9f6f6;
+            font-weight: bold;
+        }
+
+        input {
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        hr {
+            border: 1px solid #ccc;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <h2><u><b>Here you can search the cricket player's stats from our database</b></u></h2>
+        <br>
+        <hr>
+        <form action="forms.flask">
+            <label for="Name">
+                <u><b> Enter the name of the player:</b></u><input type="text" placeholder="Player Name">
+            </label><br>
+            <hr>
+            <label for="Matches">
+                <u><b> Enter the number of matches played:</b></u><input type="number" placeholder="Number of Matches">
+            </label><br>
+            <hr>
+            <label for="Role1">
+                <u><b> Select the Role of the player:</b></u> <br><input type="radio" name="Batsmen" id="Role1">Batsmen
+            </label><br>
+            <label for="Role2">
+                <input type="radio" name="Bowler" id="Role2">Bowler
+            </label><br>
+            <label for="Role3">
+                <input type="radio" name="All-Rounder" id="Role3">All-Rounder
+            </label><br>
+            <label for="Role4">
+                <input type="radio" name="Wicketkeeper" id="Role4">Wicketkeeper-Batsmen
+            </label><br>
+            <hr>
+            <label for="Team">
+                <u><b>Enter the team of the player:</b></u> <input type="text" placeholder="Player Team">
+            </label><br>
+            <hr>
+            <p><u><b>Enter the batsmen stats against different bowlers</b></u></p>
+            <label for="Runs against LHSB">
+                Enter the batsmen stats against left handed spin bowler: <br><input type="number"
+                    placeholder="Runs against LHSB">
+                <input type="number" placeholder="Number of balls faced">
+                <input type="number" placeholder="Outs against left hand spin">
+            </label><br><br>
+            <label for="Runs against RHSB">
+                Enter the batsmen stats against right handed spin bowler: <br><input type="number"
+                    placeholder="Runs against RHSB">
+                <input type="number" placeholder="Number of balls faced">
+                <input type="number" placeholder="Outs against right hand spin">
+            </label><br><br>
+            <label for="Runs against LHPB">
+                Enter the batsmen stats against right handed pace bowler: <br><input type="number"
+                    placeholder="Runs against LHPB">
+                <input type="number" placeholder="Number of balls faced">
+                <input type="number" placeholder="Outs against right hand pace">
+            </label><br><br>
+            <label for="Runs against RHPB">
+                Enter the batsmen stats against left handed pace bowler: <br><input type="number"
+                    placeholder="Runs against RHPB">
+                <input type="number" placeholder="Number of balls faced">
+                <input type="number" placeholder="Outs against left hand pace">
+            </label><br>
+            <hr>
+            <p><u><b>Enter the bowler stats against different
+                        batsmen</b></u></p>
+            <p><u>**Ignore if player is a Wicketkeeper-Batsmen**</u></p>
+            <label for="Wickets against LHB">
+                <label for="Wickets against RHB">
+                    Enter the bowler stats against right handed batsmen: <br><input type="number"
+                        placeholder="Number of wickets against RHB">
+                    <input type="number" placeholder="Number of balls bowled">
+                    <input type="number" placeholder="Number of runs conceded">
+                    Enter the bowler stats against left handed batsmen: <br><input type="number"
+                        placeholder="Number of wickets against LHB">
+                    <input type="number" placeholder="Number of balls bowled">
+                    <input type="number" placeholder="Number of runs conceded">
+                </label><br><br>
+
+            </label><br><br>
+            <hr>
+            <p><u><b>Enter number of catches taken and stumping done by the Wicketkeeper</b></u></p>
+            <p><u>**Ignore if player is not a Wicketkeeper**</u></p>
+            <label for="Catches and Stumping">
+                Enter number of catches and stumping done: <br><input type="number" placeholder="Number of catches">
+                <input type="number" placeholder="Number of stumping">
+            </label>
+            <hr>
+
+            <label for="final">
+                <input type="submit" value="Submit">
+            </label>
+        </form>
+    </div>
+</body>
+
+</html>

@@ -1,33 +1,59 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Input Form</title>
+    <title>Cricket Players Stats</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-image: url('');  
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+        }
+
+        div {
+            text-align: center;
+            padding: 50px;
+            background-color: rgba(0, 0, 0, 0.5); 
+            border-radius: 10px;
+            margin: 100px auto;
+            max-width: 400px;
+        }
+
+        h1 {
+            text-decoration: underline;
+        }
+
+        hr {
+            border: 1px solid #fff;
+            margin: 20px 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: #ffd700;
+            font-weight: bold;
+            font-size: 18px;
+            display: block;
+            margin-bottom: 15px;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #ffa500; 
+        }
+    </style>
 </head>
 <body>
-    <h2>Input Form</h2>
-    <form id="inputForm" method="post">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required><br><br>
-        
-        <label for="matches">No. of Matches:</label>
-        <input type="number" id="matches" name="matches" required><br><br>
-
-        <label for="Role">Role:</label>
-        <select name="role" id="role">
-            <option value="Batsmen">Batsmen</option>
-            <option value="Bowler">Bowler</option>
-            <option value="All-Rounder">All-Rounder</option>
-            <option value="Wicketkeeper">Wicketkeeper</option>
-        </select><br><br>
-
-        <label for="Team">Team:</label>
-        <input type="text" name="team" id="team">
-
-        <button type="submit">Submit</button>
-    </form>
-
+    <div>
+        <h1>Cricket Players Stats</h1>
+        <hr>
+        <button>Add Player</button>
+        <button>Compare Teams</button>
+    </div>
 </body>
 </html>
