@@ -75,88 +75,242 @@
         <h2><u><b>Here you can search the cricket player's stats from our database</b></u></h2>
         <br>
         <hr>
-        <form action="forms.flask">
+        <form action="/submit_form" id="playerForm" method="POST">
             <label for="Name">
-                <u><b> Enter the name of the player:</b></u><input type="text" placeholder="Player Name">
+                <u><b> Enter the name of the player:</b></u><input type="text" id="Name" placeholder="Player Name"
+                    required autocomplete="off">
             </label><br>
             <hr>
             <label for="Matches">
-                <u><b> Enter the number of matches played:</b></u><input type="number" placeholder="Number of Matches">
+                <u><b> Enter the number of matches played:</b></u><input type="number" id="Matches"
+                    placeholder="Number of Matches" required autocomplete="off">
             </label><br>
             <hr>
-            <label for="Role1">
-                <u><b> Select the Role of the player:</b></u> <br><input type="radio" name="Batsmen" id="Role1">Batsmen
-            </label><br>
-            <label for="Role2">
-                <input type="radio" name="Bowler" id="Role2">Bowler
-            </label><br>
-            <label for="Role3">
-                <input type="radio" name="All-Rounder" id="Role3">All-Rounder
-            </label><br>
-            <label for="Role4">
-                <input type="radio" name="Wicketkeeper" id="Role4">Wicketkeeper-Batsmen
-            </label><br>
+            <u> <b>Enter the role of the player: </b></u>
+            <select id="Role" name="Role" required>
+                <option value="" disabled selected>Select Role</option>
+                <option value="batsman">Batsmen</option>
+                <option value="bowler">Bowler</option>
+                <option value="all-Rounder">All-Rounder</option>
+                <option value="wicketkeeper">Wicketkeeper-Batsmen</option>
+            </select>
+            <br>
             <hr>
             <label for="Team">
-                <u><b>Enter the team of the player:</b></u> <input type="text" placeholder="Player Team">
+                <u><b>Enter the team of the player:</u> <input type="text" id="Team" placeholder="Player Team" required
+                    autocomplete="off">
             </label><br>
             <hr>
-            <p><u><b>Enter the batsmen stats against different bowlers</b></u></p>
-            <label for="Runs against LHSB">
-                Enter the batsmen stats against left handed spin bowler: <br><input type="number"
-                    placeholder="Runs against LHSB">
-                <input type="number" placeholder="Number of balls faced">
-                <input type="number" placeholder="Outs against left hand spin">
+            <label for="Batting Hand">
+                <u><b>Enter the batting hand of the player:</b></u>
+                <select id="BattingHand" name="BattingHand" required>
+                    <option value="" disabled selected>Select Batting Hand</option>
+                    <option value="right">Right-hand Batsmen</option>
+                    <option value="left">Left-hand Batsmen</option>
+                </select><br>
+            </label>
+            <label for="Bowling Type">
+                <u><b>Enter the bowling type of the player:</b></u>
+                <select id="bowlingType" name="bowlingType" required>
+                    <option value="" disabled selected>Select Bowling Type</option>
+                    <option value="Rpace">Right-hand pace/medium</option>
+                    <option value="Lpace">Left-hand pace/medium</option>
+                    <option value="Rspin">Right-hand spinner</option>
+                    <option value="Lspin">Left-hand spinner</option>
+                </select><br>
+            </label>
+            <hr>
+            <label for="RunsAgainstLHSB">
+                Enter the batsmen stats against left handed spin bowler: <br><input type="number" id="RunsAgainstLHSB"
+                    placeholder="Runs against LHSB" required autocomplete="off">
+                <input type="number" id="BallsFacedLHSB" placeholder="Number of balls faced" required
+                    autocomplete="off">
+                <input type="number" id="OutsAgainstLHSB" placeholder="Outs against left hand spin" required
+                    autocomplete="off">
             </label><br><br>
-            <label for="Runs against RHSB">
-                Enter the batsmen stats against right handed spin bowler: <br><input type="number"
-                    placeholder="Runs against RHSB">
-                <input type="number" placeholder="Number of balls faced">
-                <input type="number" placeholder="Outs against right hand spin">
+            <label for="RunsAgainstRHSB">
+                Enter the batsmen stats against right handed spin bowler: <br><input type="number" id="RunsAgainstRHSB"
+                    placeholder="Runs against RHSB" required autocomplete="off">
+                <input type="number" id="BallsFacedRHSB" placeholder="Number of balls faced" required
+                    autocomplete="off">
+                <input type="number" id="OutsAgainstRHSB" placeholder="Outs against right hand spin" required
+                    autocomplete="off">
             </label><br><br>
-            <label for="Runs against LHPB">
-                Enter the batsmen stats against right handed pace bowler: <br><input type="number"
-                    placeholder="Runs against LHPB">
-                <input type="number" placeholder="Number of balls faced">
-                <input type="number" placeholder="Outs against right hand pace">
+            <label for="RunsAgainstLHPB">
+                Enter the batsmen stats against right handed pace bowler: <br><input type="number" id="RunsAgainstLHPB"
+                    placeholder="Runs against LHPB" required autocomplete="off">
+                <input type="number" id="BallsFacedLHPB" placeholder="Number of balls faced" required
+                    autocomplete="off">
+                <input type="number" id="OutsAgainstLHPB" placeholder="Outs against right hand pace" required
+                    autocomplete="off">
             </label><br><br>
-            <label for="Runs against RHPB">
-                Enter the batsmen stats against left handed pace bowler: <br><input type="number"
-                    placeholder="Runs against RHPB">
-                <input type="number" placeholder="Number of balls faced">
-                <input type="number" placeholder="Outs against left hand pace">
-            </label><br>
+            <label for="RunsAgainstRHPB">
+                Enter the batsmen stats against left handed pace bowler: <br><input type="number" id="RunsAgainstRHPB"
+                    placeholder="Runs against RHPB" required autocomplete="off">
+                <input type="number" id="BallsFacedRHPB" placeholder="Number of balls faced" required
+                    autocomplete="off">
+                <input type="number" id="OutsAgainstRHPB" placeholder="Outs against left hand pace" required
+                    autocomplete="off">
+            </label><br><br>
+            <input type="number" id="inngBat" placeholder="innings batted" required
+                    autocomplete="off">
+                    <br>
+            <label for="battingPos">
+                <u><b>Enter the batsmen prefered batting position:</b></u>
+                <select id="battingPos" name="battingPos" required>
+                    <option value="" disabled selected>Select Batting Position</option>
+                    <option value="Top">Top order</option>
+                    <option value="middle">middle order</option>
+                    <option value="lower">lower/finsher</option>
+                    <option value="tail">tail</option>
+                </select><br>
+
+            </label><br><br>
             <hr>
             <p><u><b>Enter the bowler stats against different
                         batsmen</b></u></p>
-            <p><u>**Ignore if player is a Wicketkeeper-Batsmen**</u></p>
-            <label for="Wickets against LHB">
-                <label for="Wickets against RHB">
-                    Enter the bowler stats against right handed batsmen: <br><input type="number"
-                        placeholder="Number of wickets against RHB">
-                    <input type="number" placeholder="Number of balls bowled">
-                    <input type="number" placeholder="Number of runs conceded">
-                    Enter the bowler stats against left handed batsmen: <br><input type="number"
-                        placeholder="Number of wickets against LHB">
-                    <input type="number" placeholder="Number of balls bowled">
-                    <input type="number" placeholder="Number of runs conceded">
-                </label><br><br>
-
+            <label for="WicketsAgainstRHB">
+                Enter the bowler stats against right handed batsmen: <br><input type="number" id="WicketsAgainstRHB"
+                    placeholder="Number of wickets against RHB" required autocomplete="off">
+                <input type="number" id="BallsBowledRHB" placeholder="Number of balls bowled" required
+                    autocomplete="off">
+                <input type="number" id="RunsConcededRHB" placeholder="Number of runs conceded" required
+                    autocomplete="off">
+            </label><br>
+            <label for="WicketsAgainstLHB">
+                Enter the bowler stats against left handed batsmen: <br><input type="number" id="WicketsAgainstLHB"
+                    placeholder="Number of wickets against LHB" required autocomplete="off">
+                <input type="number" id="BallsBowledLHB" placeholder="Number of balls bowled" required
+                    autocomplete="off">
+                <input type="number" id="RunsConcededLHB" placeholder="Number of runs conceded" required
+                    autocomplete="off">
+            </label><br>
+            <input type="number" id="inngBowl" placeholder="innings bowled" required
+                    autocomplete="off">
+                    <br>
+            <label for="bowlingPos">
+                <u><b>Enter the bowler prefered bowling position:</b></u>
+                <select id="bowlingPos" name="bowlingPos" required>
+                    <option value="" disabled selected>Select Bowling Position</option>
+                    <option value="new">new</option>
+                    <option value="first_change">first_change</option>
+                    <option value="second_change">second_change</option>
+                    <option value="death">death</option>
+                </select><br>
             </label><br><br>
-            <hr>
-            <p><u><b>Enter number of catches taken and stumping done by the Wicketkeeper</b></u></p>
-            <p><u>**Ignore if player is not a Wicketkeeper**</u></p>
-            <label for="Catches and Stumping">
-                Enter number of catches and stumping done: <br><input type="number" placeholder="Number of catches">
-                <input type="number" placeholder="Number of stumping">
-            </label>
             <hr>
 
             <label for="final">
-                <input type="submit" value="Submit">
+                <input type="submit" id="final" value="Submit">
             </label>
         </form>
     </div>
+
+    <script>
+        document.getElementById('playerForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the form from submitting
+
+            // Extracting player information
+            var playerName = document.getElementById('Name').value;
+            var playerTeam = document.getElementById('Team').value;
+            var matchesPlayed = parseInt(document.getElementById('Matches').value);
+            var playerRole = document.getElementById('Role').value;
+            var battingHand = document.getElementById('BattingHand').value;
+            var bowlingType = document.getElementById('bowlingType').value;
+
+            // Extracting batting statistics
+            var runsAgainstLHSB = parseInt(document.getElementById('RunsAgainstLHSB').value);
+            var runsAgainstRHSB = parseInt(document.getElementById('RunsAgainstRHSB').value);
+            var runsAgainstLHPB = parseInt(document.getElementById('RunsAgainstLHPB').value);
+            var runsAgainstRHPB = parseInt(document.getElementById('RunsAgainstRHPB').value);
+            var outsAgainstLHSB = parseInt(document.getElementById('OutsAgainstLHSB').value);
+            var outsAgainstRHSB = parseInt(document.getElementById('OutsAgainstRHSB').value);
+            var outsAgainstLHPB = parseInt(document.getElementById('OutsAgainstLHPB').value);
+            var outsAgainstRHPB = parseInt(document.getElementById('OutsAgainstRHPB').value);
+            var ballsFacedLHSB = parseInt(document.getElementById('BallsFacedLHSB').value);
+            var ballsFacedRHSB = parseInt(document.getElementById('BallsFacedRHSB').value);
+            var ballsFacedLHPB = parseInt(document.getElementById('BallsFacedLHPB').value);
+            var ballsFacedRHPB = parseInt(document.getElementById('BallsFacedRHPB').value);
+            var inngBat = parseInt(document.getElementById('inngBat').value);
+
+            // Extracting bowling statistics
+            var wicketsAgainstRHB = parseInt(document.getElementById('WicketsAgainstRHB').value);
+            var wicketsAgainstLHB = parseInt(document.getElementById('WicketsAgainstLHB').value);
+            var ballsBowledRHB = parseInt(document.getElementById('BallsBowledRHB').value);
+            var ballsBowledLHB = parseInt(document.getElementById('BallsBowledLHB').value);
+            var runsConcededRHB = parseInt(document.getElementById('RunsConcededRHB').value);
+            var runsConcededLHB = parseInt(document.getElementById('RunsConcededLHB').value);
+            var inngBowl = parseInt(document.getElementById('inngBowl').value);
+
+
+            // Additional preferences
+            var battingPos = document.getElementById('battingPos').value;
+            var bowlingPos = document.getElementById('bowlingPos').value;
+
+            // Constructing the payload
+            var payload = {
+                playerInfo: {
+                    name: playerName,
+                    team: playerTeam,
+                    played: matchesPlayed,
+                    role: playerRole,
+                    battingHand: battingHand,
+                    bowlingType: bowlingType
+                },
+                battingDic: {
+                    runs_to_Lspin: runsAgainstLHSB,
+                    runs_to_Rspin: runsAgainstRHSB,
+                    runs_to_Rpace: runsAgainstLHPB,
+                    runs_to_Lpace: runsAgainstRHPB,
+                    out_to_Lspin: outsAgainstLHSB,
+                    out_to_Rspin: outsAgainstRHSB,
+                    out_to_Rpace: outsAgainstLHPB,
+                    out_to_Lpace: outsAgainstRHPB,
+                    balls_Lspin: ballsFacedLHSB,
+                    balls_Rspin: ballsFacedRHSB,
+                    balls_Rpace: ballsFacedLHPB,
+                    balls_Lpace: ballsFacedRHPB,
+                    pos: battingPos,
+                    inng : inngBat
+                },
+                bowlingDic: {
+                    runs_to_right: runsConcededRHB,
+                    runs_to_left: runsConcededLHB,
+                    wickets_to_right: wicketsAgainstRHB,
+                    wickets_to_left: wicketsAgainstLHB,
+                    balls_to_right: ballsBowledRHB,
+                    balls_to_left: ballsBowledLHB,
+                    inngs: matchesPlayed,
+                    pos: bowlingPos,
+                    inng: inngBowl
+                }
+            };
+
+            // Sending the payload to the backend
+            fetch('/submit_form', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Data added to the database successfully!');
+                        return response.json();
+                    }
+                    throw new Error('Network response was not ok.');
+                })
+                .then(data => {
+                    console.log(data); // Log the response from the server
+                })
+                .catch(error => {
+                    console.error('There was a problem with your fetch operation:', error);
+                });
+        });
+    </script>
+
+
 </body>
 
 </html>

@@ -52,8 +52,17 @@
     <div>
         <h1>Cricket Players Stats</h1>
         <hr>
-        <button>Add Player</button>
-        <button>Compare Teams</button>
+        <button id="AddPlayer">Add Player</button>
+        <button id="ComparePlayers">Compare Teams</button>
     </div>
+    <script>
+        document.getElementById("AddPlayer").onclick = function() {
+            window.location.href = "/addPlayer"; 
+        };
+        
+        document.getElementById("ComparePlayers").onclick = function() {  // Added onclick event for ComparePlayers
+            window.location.href = "/comparePlayer"; 
+        };
+    </script>
 </body>
 </html>

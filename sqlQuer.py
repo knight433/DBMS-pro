@@ -66,7 +66,6 @@ class Database:
         balls_to_right = bowlingHistory['balls_to_right']
         balls_to_left = bowlingHistory['balls_to_left']
         inng = bowlingHistory['inngs']
-        best = bowlingHistory['best']
         pos = bowlingHistory['pos']
 
         Totalruns = runs_to_left + runs_to_right
@@ -85,13 +84,13 @@ class Database:
         prefbat = l[eloList.index(max(eloList))]
 
         sqlHistory = 'INSERT INTO bowlinghistory VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s );'
-        sqlStats = 'INSERT INTO bowlingstats VALUES(%s, %s, %s, %s, %s, %s);'
+        sqlStats = 'INSERT INTO bowlingstats VALUES(%s, %s, %s, %s, %s);'
         sqlbio = 'INSERT INTO bowlingbio VALUES(%s, %s, %s);'
 
         try:
             cursor = self.conn.cursor()
             cursor.execute(sqlHistory,(player_id,runs_to_left,runs_to_right,wickets_to_left,wickets_to_right,balls_to_left,balls_to_right,avg_left,avg_right,elo_left,elo_right,strike_rate_right,strike_rate_left))
-            cursor.execute(sqlStats,(player_id,inng,totalWickets,Totalruns,eco,best))
+            cursor.execute(sqlStats,(player_id,inng,totalWickets,Totalruns,eco))
             cursor.execute(sqlbio,(player_id,prefbat,pos))
             self.conn.commit()
             print(f'added bowling stats of {player_id}') #debugging
@@ -139,17 +138,16 @@ class Database:
         runs = runs_to_Lspin + runs_to_Rspin + runs_to_Rpace + runs_to_Lpace
         balls = balls_Lspin + balls_Rspin + balls_Rpace + balls_Lpace
         out = out_to_Lspin + out_to_Rspin + out_to_Lpace + out_to_Rpace
-        best = battingHistory['best']
         sr = (runs/balls) * 100
         avg = runs/out if out != 0 else 0
         sqlQurHistoy = 'INSERT INTO battinghistory VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);'
-        sqlQurstats = 'INSERT INTO battingstats VALUES (%s, %s, %s, %s, %s, %s);'
+        sqlQurstats = 'INSERT INTO battingstats VALUES (%s, %s, %s, %s, %s);'
         sqlQurbio = 'INSERT INTO battingbio VALUES (%s, %s, %s);'
 
         try:
             cursor = self.conn.cursor()
             cursor.execute(sqlQurHistoy, (player_id,runs_to_Lspin,runs_to_Rspin,runs_to_Rpace ,runs_to_Lpace ,out_to_Lspin ,out_to_Rspin,out_to_Rpace,out_to_Lpace ,balls_Lspin,balls_Rspin,balls_Rpace,balls_Lpace,avg_Lspin, avg_Rspin, avg_Rpace, avg_Lpace,eloLspin,eloRspin,eloRpace,eloLpace))
-            cursor.execute(sqlQurstats,(player_id,ing,runs,sr,avg,best))
+            cursor.execute(sqlQurstats,(player_id,ing,runs,sr,avg))
             cursor.execute(sqlQurbio,(player_id,prefBowler,prefpos))
             self.conn.commit()
             print(f'added batting info of {player_id}') #debugging
