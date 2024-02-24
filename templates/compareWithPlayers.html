@@ -3,18 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compare Teams</title>
+    <title>Compare Players Stats</title>
+    <style>
+        .team-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .team {
+            width: 45%; /* Adjust the width as needed */
+        }
+    </style>
 </head>
 <body>
-    <h1>List of Players</h1>
-    <ul>
-    {% for t in team %}
-        {% for player_number, player_details in t.items() %}
-            <li>
-                Player {{ player_number }}: {{ player_details[0] }} ({{ player_details[1] }}) - {{ player_details[2] }} hand, {{ player_details[3] }} type
-            </li>
-        {% endfor %}
-    {% endfor %}
-    </ul>
+    <div class="team-container">
+        <div class="team">
+            <h1>Team 1</h1>
+            <h2>Selected Players</h2>
+            <ul id="selectedTeam1">
+                <!-- Selected players for Team 1 will be added here dynamically -->
+            </ul>
+            <h2>Not Selected Players</h2>
+            <ul id="notSelectedTeam1">
+                <!-- Not selected players for Team 1 will be added here dynamically -->
+                {% for player_number, player_details in team[0].items() %}
+                <li>
+                    <label for="player{{ player_number }}">{{ player_details[0] }} ({{ player_details[1] }}) - {{ player_details[2] }} hand, {{ player_details[3] }} type</label>
+                    <button id="player{{ player_number }}" onclick="moveToSelected(this)">Select</button>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="team">
+            <h1>Team 2</h1>
+            <h2>Selected Players</h2>
+            <ul id="selectedTeam2">
+                <!-- Selected players for Team 2 will be added here dynamically -->
+            </ul>
+            <h2>Not Selected Players</h2>
+            <ul id="notSelectedTeam2">
+                <!-- Not selected players for Team 2 will be added here dynamically -->
+                {% for player_number, player_details in team[1].items() %}
+                <li>
+                    <label for="player{{ player_number }}">{{ player_details[0] }} ({{ player_details[1] }}) - {{ player_details[2] }} hand, {{ player_details[3] }} type</label>
+                    <button id="player{{ player_number }}" onclick="moveToSelected(this)">Select</button>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <input type="submit" value = "submit">
+
+    <script>
+        function moveToSelected(playerButton) {
+            const playerLi = playerButton.parentNode;
+            const teamId = playerButton.parentNode.parentNode.id;
+            const selectedPlayersList = teamId.includes('notSelectedTeam1') ? document.getElementById('selectedTeam1') : document.getElementById('selectedTeam2');
+            selectedPlayersList.appendChild(playerLi);
+            playerButton.innerText = 'Remove'; // Change button text to 'Remove'
+            playerButton.onclick = function() {
+                moveToNotSelected(playerButton);
+            };
+        }
+
+        function moveToNotSelected(playerButton) {
+            const playerLi = playerButton.parentNode;
+            const teamId = playerButton.parentNode.parentNode.id;
+            const notSelectedPlayersList = teamId.includes('selectedTeam1') ? document.getElementById('notSelectedTeam1') : document.getElementById('notSelectedTeam2');
+            notSelectedPlayersList.appendChild(playerLi);
+            playerButton.innerText = 'Select'; // Change button text to 'Select'
+            playerButton.onclick = function() {
+                moveToSelected(playerButton);
+            };
+        }
+    </script>
 </body>
 </html>

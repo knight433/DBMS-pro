@@ -27,7 +27,7 @@ def compareTeamPage():
 def submit_form():
     if request.method == 'POST':
         
-        data = request.jsons
+        data = request.json
 
         player_info = data.get('playerInfo', {})
         batting_dic = data.get('battingDic', {})
@@ -49,6 +49,11 @@ def compare_team():
         team1_info, team2_info = con.compareTeam(team1, team2)
         para = [team1_info,team2_info]
         return render_template('compareWithPlayers.html',team=para)
+
+@app.route('/GetTeam', methods=['POST'])
+def getTeam():
+    pass
+
 
 if __name__ == '__main__':
     app.run(debug=True)
