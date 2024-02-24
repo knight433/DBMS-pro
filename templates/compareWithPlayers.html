@@ -29,7 +29,7 @@
                 {% for player_number, player_details in team[0].items() %}
                 <li>
                     <label for="player{{ player_number }}">{{ player_details[0] }} ({{ player_details[1] }}) - {{ player_details[2] }} hand, {{ player_details[3] }} type</label>
-                    <button id="player{{ player_number }}" onclick="moveToSelected(this)">Select</button>
+                    <button id="player{{ player_number }}" onclick='moveToSelected(this, "{{ player_number}}", "team1")'>Select</button>
                 </li>
                 {% endfor %}
             </ul>
@@ -47,24 +47,37 @@
                 {% for player_number, player_details in team[1].items() %}
                 <li>
                     <label for="player{{ player_number }}">{{ player_details[0] }} ({{ player_details[1] }}) - {{ player_details[2] }} hand, {{ player_details[3] }} type</label>
-                    <button id="player{{ player_number }}" onclick="moveToSelected(this)">Select</button>
+                    <button id="player{{ player_number }}" onclick='moveToSelected(this, "{{ player_number}}", "team2")'>Select</button>
                 </li>
                 {% endfor %}
             </ul>
         </div>
     </div>
-    <input type="submit" value = "submit">
+    <form action="{{ url_for('getTeam') }}" method="POST">
+        <input type="hidden" value="" id="hidAttr" name="cmpTeam">
+        <button type="submit" id="button1">Submit</button>
+    </form>
 
     <script>
-        function moveToSelected(playerButton) {
+        var team1 = [];
+        var team2 = [];
+        var subButton = document.getElementById('button1')
+
+        function moveToSelected(playerButton, text, team) {
             const playerLi = playerButton.parentNode;
             const teamId = playerButton.parentNode.parentNode.id;
             const selectedPlayersList = teamId.includes('notSelectedTeam1') ? document.getElementById('selectedTeam1') : document.getElementById('selectedTeam2');
             selectedPlayersList.appendChild(playerLi);
+            console.log(text);
             playerButton.innerText = 'Remove'; // Change button text to 'Remove'
             playerButton.onclick = function() {
                 moveToNotSelected(playerButton);
             };
+            if (team == "team1") {
+                team1.push(text);
+            } else if(team == "team2") {
+                team2.push(text);
+            }
         }
 
         function moveToNotSelected(playerButton) {
@@ -77,6 +90,12 @@
                 moveToSelected(playerButton);
             };
         }
+
+        subButton.addEventListener('click', function() {
+            formActionField = document.getElementById('hidAttr');
+            formActionField.value = [team1, team2];
+        });
+
     </script>
 </body>
 </html>

@@ -1,5 +1,6 @@
 # app.py
 from flask import Flask, render_template, request, jsonify,url_for,redirect
+from sympy import per
 import backend 
 
 app = Flask(__name__)
@@ -50,9 +51,11 @@ def compare_team():
         para = [team1_info,team2_info]
         return render_template('compareWithPlayers.html',team=para)
 
-@app.route('/GetTeam', methods=['POST'])
+@app.route('/getTeam', methods=['POST'])
 def getTeam():
-    pass
+    if request.method == 'POST':
+        print(request.form['cmpTeam'])
+        return "Done"
 
 
 if __name__ == '__main__':
