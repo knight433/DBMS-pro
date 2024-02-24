@@ -1,6 +1,5 @@
 # app.py
 from flask import Flask, render_template, request, jsonify,url_for,redirect
-from sympy import per
 import backend 
 
 app = Flask(__name__)
@@ -10,6 +9,11 @@ def testFuntion(player_info,batting_dic,bowling_dic):
     
     for key in batting_dic.keys():
         print(key,type(batting_dic[key]))
+
+def customFuntion(l):
+    retList = eval(l)
+    return retList
+    
 
 @app.route('/',methods=['GET','POST'])
 def index():
@@ -44,19 +48,50 @@ def submit_form():
 @app.route('/compareTeam', methods=['POST'])
 def compare_team():
     if request.method == 'POST':
+        global team1_info
+        global team2_info
+        
         team1 = request.form.get('team1')
         team2 = request.form.get('team2')
 
-        team1_info, team2_info = con.compareTeam(team1, team2)
+        team1_info, team2_info = con.GetTeam(team1, team2)
         para = [team1_info,team2_info]
         return render_template('compareWithPlayers.html',team=para)
 
 @app.route('/getTeam', methods=['POST'])
 def getTeam():
+    global team1_info
+    global team2_info
+
+    allteam1 = list(team1_info.keys())  
+    allteam2 = list(team2_info.keys())
+
+    print(allteam1)
+
+    selteam1 = []
+    selteam2 = []
+    
     if request.method == 'POST':
-        print(request.form['cmpTeam'])
+        selected_players = request.form['cmpTeam']
+        selected_players = customFuntion(selected_players)       
+
+        for player in selected_players:
+            
+            if int(player) in allteam1:
+                selteam1.append(player)
+            elif int(player) in allteam2:
+                selteam2.append(player)
+
+        team1Bal = con.judgeTeam(selteam1)
+        team2Bal = con.judgeTeam(selteam2)
+
+        compScore = con.compareTeamStrength(selteam1,selteam2)
+
+        print(team1Bal)
+        print(team2Bal)
+        print(compScore)
+
         return "Done"
-
-
+    
 if __name__ == '__main__':
     app.run(debug=True)
