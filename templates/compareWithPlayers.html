@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compare Teams</title>
+</head>
+<body>
+    <h1>List of Players</h1>
+    <ul>
+    {% for t in team %}
+        {% for player_number, player_details in t.items() %}
+            <li>
+                Player {{ player_number }}: {{ player_details[0] }} ({{ player_details[1] }}) - {{ player_details[2] }} hand, {{ player_details[3] }} type
+            </li>
+        {% endfor %}
+    {% endfor %}
+    </ul>
+</body>
+</html>
