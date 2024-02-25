@@ -66,8 +66,6 @@ def getTeam():
     allteam1 = list(team1_info.keys())  
     allteam2 = list(team2_info.keys())
 
-    print(allteam1)
-
     selteam1 = []
     selteam2 = []
     
@@ -87,11 +85,9 @@ def getTeam():
 
         compScore = con.compareTeamStrength(selteam1,selteam2)
 
-        print(team1Bal)
-        print(team2Bal)
-        print(compScore)
+        para = [team1Bal,team2Bal,compScore,selteam1,selteam2]
 
-        return "Done"
+        return render_template('Score.html',paras = para)
     
 if __name__ == '__main__':
     app.run(debug=True)
