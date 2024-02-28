@@ -100,11 +100,14 @@ def getTeam():
 
         return render_template('Score.html',paras = para)
     
-@app.route('/handle_player_click', methods=['POST'])
+@app.route('/handle_player_click', methods=['GET','POST'])
 def handle_player_click():
-    player_name = request.json.get('player')
-    print("Player clicked:", player_name)
-    return 'Player name received'
+   if request.method == 'POST':
+        player_name = request.form['player']
+        print("Player clicked:", player_name)
+        paraList = con.getPlayerStats(player_name)
+    
+        return render_template('playerPageSom.html',paras=paraList)
 
 if __name__ == '__main__':
     app.run(debug=True)

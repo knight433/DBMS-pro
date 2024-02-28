@@ -117,6 +117,7 @@
                     {% endfor %}
                 </ul>
             </div>
+            <form action="{{url_for('handle_player_click')}}" method="post" id='forID'><input type="hidden" value="" name='player' id="frm"></form>
             <!-- Gauge -->
             <div class="gauge">
                 <div class="gauge__body">
@@ -153,32 +154,15 @@
             setGaugeValue(gaugeElement, per);
         }
 
+        const variableName = document.getElementById('frm')
+        const variableform = document.getElementById('forID')
+
         function sendPlayerName(playerName) {
-            fetch('/handle_player_click', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ player: playerName }),
-            })
-            .then(response => {
-                // Handle response if needed
-                console.log('Player name sent successfully');
-            })
-            .catch(error => {
-                // Handle errors
-                console.error('Error sending player name:', error);
-            });
+            variableName.value = playerName
+            variableform.submit()
         }
         
-        function someFun(parameter) {
-            val = parameter[2]
-            per = (val/10)
-            console.log(val);
-            setGaugeValue(gaugeElement, per);
-        }
-        
-        
+
     </script>
 </body>
 

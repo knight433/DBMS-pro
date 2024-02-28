@@ -339,5 +339,10 @@ class database:
         return finalScore
 
     def getName(self,player_id):
-        
         return self.db.playerInfo(player_id,'name')
+    
+    def getPlayerStats(self,playername):
+        player_id = self.db.getPlayerID(playername)
+        player_id = int(player_id[0])
+        listR = self.db.getPlayerStats(player_id)
+        return listR

@@ -1,3 +1,4 @@
+import re
 import mysql.connector
 
 class Database:
@@ -241,6 +242,8 @@ class Database:
         bowlingStats = self.executeQur(qur)
         bowlingStats = bowlingStats[0]
 
+        return bowlingStats
+
     def getAllFromTeam(self,team):
 
         qur = f"SELECT player_id FROM player WHERE team_name = '{team}';"
@@ -265,17 +268,25 @@ class Database:
         #batting stats 
         batStats = self.getBattingStats(playerid)
 
-        inngs = batStats[1]
-        runs = batStats[2]
-        sr = batStats[3]
-        avg = batStats[4]
+        batinngs = batStats[1]
+        runs = float(batStats[2])
+        sr = float(batStats[3])
+        avg = float(batStats[4])
 
         #bowling stats
         bowlingStats = self.getbowlingStats(playerid)
 
-        inngs =bowlingStats[1]
+        bowlinngs =bowlingStats[1]
         wickets = bowlingStats[2]
-        runs = bowlingStats[3]
-        eco = bowlingStats[4]
+        runs = float(bowlingStats[3])
+        eco = float(bowlingStats[4])
 
-        return None
+        return [name,batting_hand,bowlingType,role,team,batinngs,runs,sr,avg,bowlinngs,wickets,eco]
+    
+    def getPlayerID(self,playername):
+
+        qur = f"SELECT player_id FROM player WHERE player_name = '{playername}';"
+        id = self.executeQur(qur)
+        id = id[0]
+
+        return id

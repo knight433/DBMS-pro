@@ -1,4 +1,65 @@
-<div class="container">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> - Player Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        .player-details {
+            margin-bottom: 20px;
+        }
+
+        .player-details p {
+            margin: 5px 0;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .stats-container .stats {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .stats-container .stats h2 {
+            color: #007bff;
+            margin-top: 0;
+        }
+
+        .stats-container .stats p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
         <h1>{{ paras[0] }}</h1> <!-- Player Name -->
     
         <div class="player-details">
@@ -27,3 +88,5 @@
             </div>
         </div>
     </div>
+    </body>
+</html>

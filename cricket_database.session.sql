@@ -126,5 +126,4 @@ DELETE FROM bowlingstats where player_id = 23;
 DELETE FROM bowlinghistory where player_id = 23;
 
 --@block
-SELECT player_id FROM player 
-WHERE team_name = 'GT';
+SELECT player_id FROM player WHERE player_name = 'Shubam Gill';
