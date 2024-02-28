@@ -9,7 +9,6 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-        
             position: absolute;
             width: 100%;
             height: 100%;
@@ -35,6 +34,16 @@
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 45%; /* Adjust the width as needed */
+        }
+
+        .player-container {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         h1 {
@@ -89,8 +98,14 @@
                 <!-- Not selected players for Team 1 will be added here dynamically -->
                 {% for player_number, player_details in team[0].items() %}
                 <li>
-                    <label for="player{{ player_number }}">{{ player_details[0] }} ({{ player_details[1] }}) - {{ player_details[2] }} hand, {{ player_details[3] }} type</label>
-                    <button id="player{{ player_number }}" onclick='moveToSelected(this, "{{ player_number}}", "team1")'>Select</button>
+                    <div class="player-container">
+                        <div>
+                            <span style="font-weight: bold; font-size: larger;">{{ player_details[0] }}</span><br>
+                            <span>{{ player_details[1] }}</span><br>
+                            <span>{{ player_details[2] }} hand, {{ player_details[3] }} type</span>
+                        </div>
+                        <button id="player{{ player_number }}" onclick='moveToSelected(this, "{{ player_number}}", "team1")'>Select</button>
+                    </div>
                 </li>
                 {% endfor %}
             </ul>
@@ -107,8 +122,14 @@
                 <!-- Not selected players for Team 2 will be added here dynamically -->
                 {% for player_number, player_details in team[1].items() %}
                 <li>
-                    <label for="player{{ player_number }}">{{ player_details[0] }} ({{ player_details[1] }}) - {{ player_details[2] }} hand, {{ player_details[3] }} type</label>
-                    <button id="player{{ player_number }}" onclick='moveToSelected(this, "{{ player_number}}", "team2")'>Select</button>
+                    <div class="player-container">
+                        <div>
+                            <span style="font-weight: bold; font-size: larger;">{{ player_details[0] }}</span><br>
+                            <span>{{ player_details[1] }}</span><br>
+                            <span>{{ player_details[2] }} hand, {{ player_details[3] }} type</span>
+                        </div>
+                        <button id="player{{ player_number }}" onclick='moveToSelected(this, "{{ player_number}}", "team2")'>Select</button>
+                    </div>
                 </li>
                 {% endfor %}
             </ul>
@@ -125,8 +146,8 @@
         var subButton = document.getElementById('button1')
 
         function moveToSelected(playerButton, text, team) {
-            const playerLi = playerButton.parentNode;
-            const teamId = playerButton.parentNode.parentNode.id;
+            const playerLi = playerButton.parentNode.parentNode;
+            const teamId = playerLi.parentNode.id;
             const selectedPlayersList = teamId.includes('notSelectedTeam1') ? document.getElementById('selectedTeam1') : document.getElementById('selectedTeam2');
             selectedPlayersList.appendChild(playerLi);
             console.log(text);
@@ -142,8 +163,8 @@
         }
 
         function moveToNotSelected(playerButton) {
-            const playerLi = playerButton.parentNode;
-            const teamId = playerButton.parentNode.parentNode.id;
+            const playerLi = playerButton.parentNode.parentNode;
+            const teamId = playerLi.parentNode.id;
             const notSelectedPlayersList = teamId.includes('selectedTeam1') ? document.getElementById('notSelectedTeam1') : document.getElementById('notSelectedTeam2');
             notSelectedPlayersList.appendChild(playerLi);
             playerButton.innerText = 'Select'; // Change button text to 'Select'

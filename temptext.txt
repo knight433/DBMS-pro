@@ -34,7 +34,6 @@
         .player-list {
             list-style: none;
             padding-left: 20px;
-            cursor: pointer; /* Add cursor pointer for better UX */
         }
 
         .gauge {
@@ -97,7 +96,7 @@
                 <h2>Players for Team 1:</h2>
                 <ul class="player-list">
                     {% for player in paras[3] %}
-                    <li onclick="sendPlayerName('{{ player }}')">{{ player }}</li>
+                    <li>{{ player }}</li>
                     {% endfor %}
                 </ul>
             </div>
@@ -113,7 +112,7 @@
                 <h2>Players for Team 2:</h2>
                 <ul class="player-list">
                     {% for player in paras[4] %}
-                    <li onclick="sendPlayerName('{{ player }}')">{{ player }}</li>
+                    <li>{{ player }}</li>
                     {% endfor %}
                 </ul>
             </div>
@@ -132,6 +131,7 @@
     <!-- Include Bootstrap JS (optional) -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
+
         const gaugeElement = document.querySelector(".gauge");
         const parasValue = gaugeElement.getAttribute("data-paras");
         const parasValueAsNumber = parseFloat(parasValue);
@@ -146,40 +146,21 @@
             gauge.querySelector(".gauge__cover").textContent = `${Math.round(value * 100)}`;
         }
         
+        
+        
         function someFun(parameter) {
             val = parameter[2]
             per = (val/10)
             console.log(val);
             setGaugeValue(gaugeElement, per);
         }
+        
+        
 
-        function sendPlayerName(playerName) {
-            fetch('/handle_player_click', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ player: playerName }),
-            })
-            .then(response => {
-                // Handle response if needed
-                console.log('Player name sent successfully');
-            })
-            .catch(error => {
-                // Handle errors
-                console.error('Error sending player name:', error);
-            });
-        }
-        
-        function someFun(parameter) {
-            val = parameter[2]
-            per = (val/10)
-            console.log(val);
-            setGaugeValue(gaugeElement, per);
-        }
-        
-        
     </script>
 </body>
 
 </html>
+
+
+        

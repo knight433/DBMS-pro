@@ -224,7 +224,23 @@ class Database:
             return playerInfo[3]
         elif req == 'name':
             return playerInfo[1]
-        
+        elif req == 'all':
+            return playerInfo
+
+    def getBattingStats(self,player_id):
+
+        qur = f'SELECT * FROM battingstats WHERE player_id = {player_id}'
+        battingStats = self.executeQur(qur)
+        battingStats = battingStats[0]
+
+        return battingStats
+    
+    def getbowlingStats(self,player_id):
+
+        qur = f'SELECT * FROM battingstats WHERE player_id = {player_id}'
+        bowlingStats = self.executeQur(qur)
+        bowlingStats = bowlingStats[0]
+
     def getAllFromTeam(self,team):
 
         qur = f"SELECT player_id FROM player WHERE team_name = '{team}';"
@@ -235,3 +251,31 @@ class Database:
             players.append(i[0])
         
         return players
+    
+    def getPlayerStats(self,playerid):
+        
+        playerInfo = self.playerInfo(playerid,'all')
+
+        name = playerInfo[1]
+        batting_hand = playerInfo[5]
+        bowlingType = playerInfo[4]
+        role = playerInfo[3]
+        team = playerInfo[6]
+
+        #batting stats 
+        batStats = self.getBattingStats(playerid)
+
+        inngs = batStats[1]
+        runs = batStats[2]
+        sr = batStats[3]
+        avg = batStats[4]
+
+        #bowling stats
+        bowlingStats = self.getbowlingStats(playerid)
+
+        inngs =bowlingStats[1]
+        wickets = bowlingStats[2]
+        runs = bowlingStats[3]
+        eco = bowlingStats[4]
+
+        return None

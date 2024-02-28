@@ -100,5 +100,11 @@ def getTeam():
 
         return render_template('Score.html',paras = para)
     
+@app.route('/handle_player_click', methods=['POST'])
+def handle_player_click():
+    player_name = request.json.get('player')
+    print("Player clicked:", player_name)
+    return 'Player name received'
+
 if __name__ == '__main__':
     app.run(debug=True)
