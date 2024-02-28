@@ -1,11 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compared Teams</title>
+    <title>Team Comparison</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .progress-wrapper {
+            margin-bottom: 20px;
+        }
+
+        .progress-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .progress-bar {
+            border-radius: 10px;
+        }
+
+        .player-list {
+            list-style: none;
+            padding-left: 20px;
+        }
+
+        .gauge {
+            width: 400px;
+            aspect-ratio: 1;
+            background-image:
+                radial-gradient(closest-side, #fff 0%, #fff calc(100% - var(--thickness)), transparent calc(100% - var(--thickness))),
+                conic-gradient(from -90deg, limegreen 0deg var(--deg), transparent var(--deg) 180deg),
+                conic-gradient(from -90deg, lightgray 0deg 180deg, transparent 180deg);
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+        }
+    </style>
 </head>
+
 <body>
-    para - {{paras}}
+    <h1>Team Comparison Results</h1>
+    <div class="container">
+        <div class="row">
+            <!-- Team 1 Balance Progress Bar -->
+            <div class="col-md-6">
+                <div class="progress-wrapper">
+                    <h2 class="progress-label">Team 1 Balance: {{ paras[0] }}%</h2>
+                    <div class="progress">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ paras[0] }}%;"
+                            aria-valuenow="{{ paras[0] }}" aria-valuemin="0" aria-valuemax="100">{{ paras[0] }}%</div>
+                    </div>
+                </div>
+                <h2>Players for Team 1:</h2>
+                <ul class="player-list">
+                    {% for player in paras[3] %}
+                    <li>{{ player }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <!-- Team 2 Balance Progress Bar -->
+            <div class="col-md-6">
+                <div class="progress-wrapper">
+                    <h2 class="progress-label">Team 2 Balance: {{ paras[1] }}%</h2>
+                    <div class="progress">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ paras[1] }}%;"
+                            aria-valuenow="{{ paras[1] }}" aria-valuemin="0" aria-valuemax="100">{{ paras[1] }}%</div>
+                    </div>
+                </div>
+                <h2>Players for Team 2:</h2>
+                <ul class="player-list">
+                    {% for player in paras[4] %}
+                    <li>{{ player }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <!-- Gauge -->
+            <div class="gauge">
+                {{paras[2]}}
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Bootstrap JS (optional) -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>

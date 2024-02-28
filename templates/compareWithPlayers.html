@@ -9,8 +9,19 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f0f0f0;
+        
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-box-shadow: inset 0px 0px 400px #000000;
+            box-shadow: inset 0px 0px 400px #000000;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.35)), url('{{ url_for("static", filename="indexBG.jpg") }}');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
         }
+    
 
         .team-container {
             display: flex;

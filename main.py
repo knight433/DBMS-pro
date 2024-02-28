@@ -83,9 +83,20 @@ def getTeam():
         team1Bal = con.judgeTeam(selteam1)
         team2Bal = con.judgeTeam(selteam2)
 
+        team1Players = []
+        team2Players = []
+
+        for i in selteam1:
+            tempName = con.getName(i)
+            team1Players.append(tempName)
+        
+        for i in selteam2:
+            tempName = con.getName(i)
+            team2Players.append(tempName)
+
         compScore = con.compareTeamStrength(selteam1,selteam2)
 
-        para = [team1Bal,team2Bal,compScore,selteam1,selteam2]
+        para = [team1Bal,team2Bal,compScore,team1Players,team2Players]
 
         return render_template('Score.html',paras = para)
     

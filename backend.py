@@ -337,3 +337,7 @@ class database:
         finalScore = team1Bowlingstr - team2Bowlingstr
         
         return finalScore
+
+    def getName(self,player_id):
+        
+        return self.db.playerInfo(player_id,'name')
