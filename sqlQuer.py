@@ -1,4 +1,4 @@
-import re
+
 import mysql.connector
 
 class Database:
@@ -72,8 +72,8 @@ class Database:
         Totalruns = runs_to_left + runs_to_right
         totalballs = balls_to_left + balls_to_right
         totalWickets = wickets_to_left + wickets_to_right
-        eco = round(totalballs/(totalballs),2) if totalballs != 0 else 0
-
+        eco = round(Totalruns / totalballs, 2) if totalballs != 0 else 0
+        
         avg_right = round(runs_to_right / wickets_to_right, 2) if wickets_to_right != 0 else 0
         avg_left = round(runs_to_left / wickets_to_left, 2) if wickets_to_left != 0 else 0
         strike_rate_right = round(balls_to_right / wickets_to_right ,2)  if balls_to_right and wickets_to_right != 0 else 0
@@ -238,9 +238,10 @@ class Database:
     
     def getbowlingStats(self,player_id):
 
-        qur = f'SELECT * FROM battingstats WHERE player_id = {player_id}'
+        qur = f'SELECT * FROM bowlingstats WHERE player_id = {player_id}'
         bowlingStats = self.executeQur(qur)
         bowlingStats = bowlingStats[0]
+        print(f'bowling stats = {bowlingStats}') #debugging
 
         return bowlingStats
 
@@ -258,7 +259,7 @@ class Database:
     def getPlayerStats(self,playerid):
         
         playerInfo = self.playerInfo(playerid,'all')
-
+        print(playerInfo)
         name = playerInfo[1]
         batting_hand = playerInfo[5]
         bowlingType = playerInfo[4]
@@ -269,19 +270,19 @@ class Database:
         batStats = self.getBattingStats(playerid)
 
         batinngs = batStats[1]
-        runs = float(batStats[2])
+        runsScored = int(batStats[2])
         sr = float(batStats[3])
         avg = float(batStats[4])
-
+        print(f'here {playerid}') #debugging
         #bowling stats
         bowlingStats = self.getbowlingStats(playerid)
 
         bowlinngs =bowlingStats[1]
         wickets = bowlingStats[2]
-        runs = float(bowlingStats[3])
+        runsConceded = int(bowlingStats[3])
         eco = float(bowlingStats[4])
 
-        return [name,batting_hand,bowlingType,role,team,batinngs,runs,sr,avg,bowlinngs,wickets,eco]
+        return [name,batting_hand,bowlingType,role,team,batinngs,runsScored,sr,avg,bowlinngs,runsConceded,wickets,eco]
     
     def getPlayerID(self,playername):
 

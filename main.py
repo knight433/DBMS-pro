@@ -106,7 +106,7 @@ def handle_player_click():
         player_name = request.form['player']
         print("Player clicked:", player_name)
         paraList = con.getPlayerStats(player_name)
-    
+        print(paraList)
         return render_template('playerPageSom.html',paras=paraList)
 
 if __name__ == '__main__':
